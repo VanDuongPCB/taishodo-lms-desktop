@@ -1,0 +1,10 @@
+QCheckBox
+{
+    color: #eee;
+}
+
+QCheckBox::indicator
+{
+    /* border: none; */
+    /* background-color: red; */
+}

@@ -1,0 +1,39 @@
+QSpinBox,
+QDoubleSpinBox
+{
+    border: 1px solid #2A303B;
+    border-radius: 5px;
+    padding: 3px;
+    background-color: #4E5A6E;
+    color: #eee;
+}
+
+QSpinBox:focus,
+QDoubleSpinBox:focus
+{
+    border-color: #0696D7;
+}
+
+QSpinBox::up-button,
+QSpinBox::down-button,
+QDoubleSpinBox::up-button,
+QDoubleSpinBox::down-button
+{
+    border: none;
+}
+
+QSpinBox::up-arrow,
+QDoubleSpinBox::up-arrow 
+{
+    image: url(#image-dir/up-button.png);
+    width: 10px;
+    height: 10px;
+}
+
+QSpinBox::down-arrow,
+QDoubleSpinBox::down-arrow 
+{
+    image: url(#image-dir/down-button.png);
+    width: 10px;
+    height: 10px;
+}

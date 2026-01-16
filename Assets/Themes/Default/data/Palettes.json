@@ -1,0 +1,114 @@
+{
+    "Palettes": [
+        {
+            "Group": "Normal",
+            "Role": "Window",
+            "Color": "rgb(240, 240, 240)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "WindowText",
+            "Color": "rgb(48,48,48)"
+        },
+        {
+            "Group": "Disabled",
+            "Role": "WindowText",
+            "Color": "rgb(127, 127, 127)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Base",
+            "Color": "rgb(250, 250, 250)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "AlternateBase",
+            "Color": "rgb(240,240,240)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "ToolTipBase",
+            "Color": "rgb(48, 48, 48)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Text",
+            "Color": "rgb(48, 48, 48)"
+        },
+        {
+            "Group": "Disabled",
+            "Role": "Text",
+            "Color": "rgb(127, 127, 127)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Light",
+            "Color": "rgb(35, 35, 35)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Midlight",
+            "Color": "rgb(35, 35, 35)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Mid",
+            "Color": "rgb(35, 35, 35)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Dark",
+            "Color": "rgb(35, 35, 35)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Shadow",
+            "Color": "rgb(127, 127, 127)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Button",
+            "Color": "rgb(255, 255, 255)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "ButtonText",
+            "Color": "rgb(48,48,48)"
+        },
+        {
+            "Group": "Disabled",
+            "Role": "ButtonText",
+            "Color": "rgb(127, 127, 127)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "BrightText",
+            "Color": "rgb(255, 0, 0)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Link",
+            "Color": "rgb(42, 130, 218)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "Highlight",
+            "Color": "rgb(42, 130, 218)"
+        },
+        {
+            "Group": "Disabled",
+            "Role": "Highlight",
+            "Color": "rgb(80, 80, 80)"
+        },
+        {
+            "Group": "Normal",
+            "Role": "HighlightedText",
+            "Color": "rgb(255, 255, 255)"
+        },
+        {
+            "Group": "Disabled",
+            "Role": "HighlightedText",
+            "Color": "rgb(127, 127, 127)"
+        }
+    ]
+}

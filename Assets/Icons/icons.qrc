@@ -1,0 +1,39 @@
+<RCC>
+    <qresource prefix="/">
+        <file>save_48px.png</file>
+        <file>add_file_48px.png</file>
+        <file>doctors_folder_48px.png</file>
+        <file>remove_48px.png</file>
+        <file>settings_48px.png</file>
+        <file>upload_to_ftp_48px.png</file>
+        <file>3d_model_48px.png</file>
+        <file>deviation_48px.png</file>
+        <file>rss_48px.png</file>
+        <file>microsoft_excel_2019_48px.png</file>
+        <file>close_window_48px.png</file>
+        <file>plus_48px.png</file>
+        <file>reset_48px.png</file>
+        <file>background.png</file>
+        <file>female_profile_48px.png</file>
+        <file>iris_scan_48px.png</file>
+        <file>joystick_48px.png</file>
+        <file>schedule_48px.png</file>
+        <file>text_width_48px.png</file>
+        <file>laser_beam_48px.png</file>
+        <file>prototype_48px.png</file>
+        <file>Blue Pointer_48px.png</file>
+        <file>collect_48px.png</file>
+        <file>play_48px.png</file>
+        <file>stop_48px.png</file>
+        <file>circled_right_48px.png</file>
+        <file>firework_explosion_48px.png</file>
+        <file>ok_48px.png</file>
+        <file>sparkler_48px.png</file>
+        <file>flash_on_48px.png</file>
+        <file>data_transfer_48px.png</file>
+	<file>protect-01.png</file>
+	<file>protect-02.png</file>
+	<file>protect-03.png</file>
+	<file>database.png</file>
+    </qresource>
+</RCC>

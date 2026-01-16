@@ -1,0 +1,32 @@
+
+
+
+#tbwMain::tab-bar 
+{
+    left: 50px;
+}
+
+#tbwMain QTabBar::tab 
+{
+    border: none;
+    background-color: transparent;
+    color: #888;
+    padding: 7px 10px;
+    margin-right: 2px;
+    font-weight: bold;
+}
+
+#tbwMain QTabBar::tab:hover 
+{
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+#tbwMain QTabBar::tab:selected 
+{
+    background-color: #3B4453;
+    color: #eee;
+}
+
+#tbwMain::pane {
+    border: none;
+}

@@ -1,0 +1,154 @@
+/* QMessageBox QPushButton
+{
+    padding: 5px;
+    min-width: 80px;
+    border-radius: 12px;
+}
+
+#msgBoxError
+{
+    background-color:#99222e !important;
+    color:#fff;
+}
+
+#msgBoxWarning
+{
+    background-color:#c99700 !important;
+    color:#323232 !important;
+}
+
+#btnMsgYes
+{
+    background-color: #198754;
+}
+
+#btnMsgNo
+{
+    background-color: #dc3545;
+}
+
+#btnMsgOK
+{
+    background-color: #198754;
+}
+
+#btnMsgCancel
+{
+    background-color: #dc3545;
+}
+
+#btnMsgIgnore
+{
+    background-color: #6c757d;
+} */
+
+
+
+/* QMessageBox QPushButton
+{
+    padding: 5px;
+    min-width: 60px;
+    border-radius: 12px;
+} */
+
+/* DIALOGS */
+QMessageBox
+{
+    background-color: #222933;
+}
+
+#msgBoxNormal
+{
+
+}
+
+#msgBoxWarning
+{
+    background-color: #c09000;
+}
+
+#msgBoxError
+{
+    background-color: #861e28;
+}
+
+/* BUTTONS */
+QDialogButtonBox,
+QMessageBox QPushButton
+{
+    padding: 5px;
+    min-width: 60px;
+    border-radius: 12px;
+}
+
+#btnMsgOk{background-color: #0d6efd;}
+#btnMsgOk:hover{background-color: #3484fc;}
+#btnMsgOk:pressed{}
+
+#btnMsgOpen{background-color: #3B4453;}
+#btnMsgOpen:hover{background-color: #4E5A6E;}
+#btnMsgOpen:pressed{}
+
+#btnMsgSave{background-color: #3B4453;}
+#btnMsgSave:hover{background-color: #4E5A6E;}
+#btnMsgSave:pressed{}
+
+#btnMsgCancel{background-color: #3B4453;}
+#btnMsgCancel:hover{background-color: #4E5A6E;}
+#btnMsgCancel:pressed{}
+
+#btnMsgClose{background-color: #3B4453;}
+#btnMsgClose:hover{background-color: #4E5A6E;}
+#btnMsgClose:pressed{}
+
+#btnMsgDiscard{background-color: #3B4453;}
+#btnMsgDiscard:hover{background-color: #4E5A6E;}
+#btnMsgDiscard:pressed{}
+
+#btnMsgApply{background-color: #3B4453;}
+#btnMsgApply:hover{background-color: #4E5A6E;}
+#btnMsgApply:pressed{}
+
+#btnMsgReset{background-color: #3B4453;}
+#btnMsgReset:hover{background-color: #4E5A6E;}
+#btnMsgReset:pressed{}
+
+#btnMsgRestoreDefaults{background-color: #3B4453;}
+#btnMsgRestoreDefaults:hover{background-color: #4E5A6E;}
+#btnMsgRestoreDefaults:pressed{}
+
+#btnMsgHelp{background-color: #3B4453;}
+#btnMsgHelp:hover{background-color: #4E5A6E;}
+#btnMsgHelp:pressed{}
+
+#btnMsgSaveAll{background-color: #3B4453;}
+#btnMsgSaveAll:hover{background-color: #4E5A6E;}
+#btnMsgSaveAll:pressed{}
+
+#btnMsgYes{background-color: #198754;}
+#btnMsgYes:hover{background-color: #1fa165;}
+#btnMsgYes:pressed{}
+
+#btnMsgYesToAll{background-color: #3B4453;}
+#btnMsgYesToAll:hover{background-color: #4E5A6E;}
+#btnMsgYesToAll:pressed{}
+
+#btnMsgNo{background-color: #dc3545;}
+#btnMsgNo:hover{background-color: #bb2d3b;}
+#btnMsgNo:pressed{}
+
+#btnMsgNoToAll{background-color: #3B4453;}
+#btnMsgNoToAll:hover{background-color: #4E5A6E;}
+#btnMsgNoToAll:pressed{}
+
+#btnMsgAbort{background-color: #3B4453;}
+#btnMsgAbort:hover{background-color: #4E5A6E;}
+#btnMsgAbort:pressed{}
+
+#btnMsgRetry{background-color: #3B4453;}
+#btnMsgRetry:hover{background-color: #4E5A6E;}
+#btnMsgRetry:pressed{}
+
+#btnMsgIgnore{background-color: #3B4453;}
+#btnMsgIgnore:hover{background-color: #4E5A6E;}
+#btnMsgIgnore:pressed{}

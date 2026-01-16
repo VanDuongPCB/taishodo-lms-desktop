@@ -1,0 +1,25 @@
+QLabel
+{
+    color: #eee;
+}
+
+
+#lblCodeFormat,
+#lblBarcode
+{
+    color: lime !important;
+}
+
+
+#lblLotName,
+#lblSerialStart,
+#lblSerialEnd,
+#lblQuantity,
+#lblModelCode,
+#lblModelName,
+#lblDesign,
+#lblIVProgram,
+#lblCount
+{
+    color: aquamarine;
+}

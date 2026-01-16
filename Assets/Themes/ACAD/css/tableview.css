@@ -1,0 +1,34 @@
+QTableView
+{
+    background-color: #3B4453;
+    gridline-color: #2E3440;
+    alternate-background-color: #484848;
+    color: #eee;
+}
+
+QTableView QLineEdit
+{
+    border-radius: 0px;
+}
+
+QHeaderView
+{
+    background-color: #2E3440;
+color: #eee;
+}
+
+QHeaderView::section 
+{
+    background-color: #2E3440;
+}
+
+QTableCornerButton::section
+{
+    background-color: #2E3440;
+}
+
+
+#tbvBlocks
+{
+    background-color: transparent;
+}

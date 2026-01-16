@@ -1,0 +1,420 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>1280</width>
+    <height>1000</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>LASER MARKER SYSTEM</string>
+  </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <widget class="QWidget" name="centralWidget">
+   <layout class="QGridLayout" name="gridLayout_2">
+    <property name="leftMargin">
+     <number>0</number>
+    </property>
+    <property name="topMargin">
+     <number>0</number>
+    </property>
+    <property name="rightMargin">
+     <number>0</number>
+    </property>
+    <property name="bottomMargin">
+     <number>0</number>
+    </property>
+    <item row="0" column="0">
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>1</number>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>32</width>
+        <height>32</height>
+       </size>
+      </property>
+      <widget class="QWidget" name="tabLogin">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/protect-01.png</normaloff>:/protect-01.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Đăng nhập</string>
+       </attribute>
+      </widget>
+      <widget class="QWidget" name="tabMark">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/laser_beam_48px.png</normaloff>:/laser_beam_48px.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Khắc</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_6">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabTransfer">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/data_transfer_48px.png</normaloff>:/data_transfer_48px.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Pass</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_7">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabPlans">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/schedule_48px.png</normaloff>:/schedule_48px.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Kế hoạch</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_3">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabModel">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/prototype_48px.png</normaloff>:/prototype_48px.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Model</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_5">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabDesign">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/text_width_48px.png</normaloff>:/text_width_48px.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Thiết kế</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_4">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabIV">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/iris_scan_48px.png</normaloff>:/iris_scan_48px.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Chương trình IV</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_8">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabSetting">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/settings_48px.png</normaloff>:/settings_48px.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Cài đặt</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_9">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabControl">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/joystick_48px.png</normaloff>:/joystick_48px.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Điều khiển</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_10">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="tabData">
+       <attribute name="icon">
+        <iconset resource="../Assets/Icons/icons.qrc">
+         <normaloff>:/microsoft_excel_2019_48px.png</normaloff>:/microsoft_excel_2019_48px.png</iconset>
+       </attribute>
+       <attribute name="title">
+        <string>Dữ liệu</string>
+       </attribute>
+       <layout class="QGridLayout" name="gridLayout_11">
+        <property name="leftMargin">
+         <number>0</number>
+        </property>
+        <property name="topMargin">
+         <number>0</number>
+        </property>
+        <property name="rightMargin">
+         <number>0</number>
+        </property>
+        <property name="bottomMargin">
+         <number>0</number>
+        </property>
+       </layout>
+      </widget>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+  <action name="actionLogin">
+   <property name="icon">
+    <iconset resource="../Assets/Icons/icons.qrc">
+     <normaloff>:/female_profile_48px.png</normaloff>:/female_profile_48px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Đăng nhập</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#5555ff;&quot;&gt;Đăng nhập&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Click vào nút nhấn này khi tên nút là Đăng nhập, máy tính sẽ hiển thị hộp thoại đăng nhập.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Đăng nhập thành công sẽ mở khóa nhiều tính năng của thiết bị.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#ff0000;&quot;&gt;Đăng xuất&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Click vào nút nhấn này, trạng thái đăng nhập sẽ bị xóa.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Một số chức năng sẽ bị khóa lại.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionSettings">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Assets/Icons/icons.qrc">
+     <normaloff>:/settings_48px.png</normaloff>:/settings_48px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Cài đặt</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#5555ff;&quot;&gt;Cài đặt&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Click vào nút nhấn này, để hiển thị và thay đổi cài đặt của thiết bị.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionMark">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Assets/Icons/icons.qrc">
+     <normaloff>:/laser_beam_48px.png</normaloff>:/laser_beam_48px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Khắc</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#5555ff;&quot;&gt;Khắc&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Click vào nút nhấn này, màn hình sẽ chuyển sang trang điều khiển cho chế độ khắc (sản xuất).&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionControl">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Assets/Icons/icons.qrc">
+     <normaloff>:/joystick_48px.png</normaloff>:/joystick_48px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Điều khiển</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#5555ff;&quot;&gt;Điều khiển&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Click vào nút nhấn này, màn hình sẽ chuyển sang bảng điều khiển thiết bị.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionLot">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Assets/Icons/icons.qrc">
+     <normaloff>:/schedule_48px.png</normaloff>:/schedule_48px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Kế hoạch</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#5555ff;&quot;&gt;Kế hoạch&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Click vào nút nhấn này, màn hình sẽ chuyển sang trang quản lý kế hoạch.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Có thể xem, thay đổi, lập kế hoạch sản xuất.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionModel">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Assets/Icons/icons.qrc">
+     <normaloff>:/prototype_48px.png</normaloff>:/prototype_48px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Model</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#5555ff;&quot;&gt;Quản lý model&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Click vào nút nhấn này, màn hình sẽ chuyển sang trang quản lý model.&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Có thể xem, thay đổi, tạo mới các model cùng các thông số đi kèm.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionDesign">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Assets/Icons/icons.qrc">
+     <normaloff>:/text_width_48px.png</normaloff>:/text_width_48px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Thiết kế</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#5555ff;&quot;&gt;Quản lý thiết kế&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Click vào nút nhấn này, màn hình sẽ chuyển sang trang quản lý thiết kế của một chương trình (tương ứng với một mẫu tem).&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Có thể xem, thay đổi thông số, nội dung của từng chương trình (từng mẫu tem).&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+  <action name="actionIVProgram">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Assets/Icons/icons.qrc">
+     <normaloff>:/iris_scan_48px.png</normaloff>:/iris_scan_48px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Chương trình IV</string>
+   </property>
+  </action>
+  <action name="actionPass">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="icon">
+    <iconset resource="../Assets/Icons/icons.qrc">
+     <normaloff>:/data_transfer_48px.png</normaloff>:/data_transfer_48px.png</iconset>
+   </property>
+   <property name="text">
+    <string>Pass</string>
+   </property>
+   <property name="toolTip">
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:700; color:#5555ff;&quot;&gt;Chế độ PASS&lt;/span&gt;&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; color:#404040;&quot;&gt;Click vào nút nhấn này, màn hình sẽ chuyển sang chế độ PASS.&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <resources>
+  <include location="../Assets/Icons/icons.qrc"/>
+ </resources>
+ <connections/>
+</ui>

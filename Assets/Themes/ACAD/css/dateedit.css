@@ -1,0 +1,43 @@
+QDateEdit
+{
+    border: 1px solid #2A303B;
+    border-radius: 5px;
+    padding: 3px;
+    background-color: #4E5A6E;
+    color: #eee;
+}
+
+QDateEdit:focus
+{
+    border-color: #0696D7;
+}
+
+QDateEdit::up-button,
+QDateEdit::down-button
+{
+    border: none;
+}
+
+QDateEdit::up-arrow
+{
+    image: url(#image-dir/up-button.png);
+    width: 10px;
+    height: 10px;
+}
+
+QDateEdit::down-arrow
+{
+    image: url(#image-dir/down-button.png);
+    width: 10px;
+    height: 10px;
+}
+
+QDateEdit::drop-down
+{
+    border: none;
+}
+
+QDateEdit::down-arrow {
+    width: 10px;
+    image: url(#image-dir/down-button.png);
+}

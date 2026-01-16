@@ -1,0 +1,101 @@
+QPushButton,
+QToolButton
+{
+    border: none;
+    border-radius: 5px;
+    padding: 3px;
+    background-color: #0d6efd;
+    color: #eee;
+}
+
+#btnWDClose, 
+#btnWDSize, 
+#btnWDMini
+{
+    border: 2px solid rgba(0,0,0,0);
+    border-radius: 10px;
+    background-color: gray;
+}
+
+#btnWDClose{
+    background-color: rgb(200, 64, 64);
+}
+
+#btnWDClose:hover{
+    background-color: rgb(230, 94, 94);
+}
+
+
+#btnWDSize{
+    background-color: rgb(58, 182, 85);
+}
+
+#btnWDSize:hover{
+    background-color: rgb(88, 212, 115);
+}
+
+#btnWDMini{
+    background-color: rgb(200, 200, 0);
+}
+
+#btnWDMini:hover{
+    background-color: rgb(230, 230, 30);
+}
+
+/* Main Login Button*/
+#btnMainLogin{border:none; border-radius:5px;background-color:rgba(128,128,128,0.0);color:#eee;}
+#btnMainLogin:hover{background-color:rgba(128,128,128,0.5);}
+
+/* success buttons */
+#btnAdd,
+#btnAddUser,
+#btnAddParam,
+#btnPass
+{
+    background-color: #198754;
+}
+
+#btnAdd:hover,
+#btnAddUser:hover,
+#btnAddParam:hover,
+#btnPass:hover
+{
+    background-color: rgb(88, 212, 115);
+}
+
+/* danger buttons */
+#btnRemove,
+#btnRemoveUser,
+#btnDelete,
+#btnRemoveBlocks,
+#btnRemoveParam,
+#btnStop
+{
+    background-color: #dc3545;
+}
+
+/* warning buttons */
+#btnReset,
+#btnResetUser
+{
+    background-color: #ffc107;
+    color: #000;
+}
+
+QPushButton:disabled,
+QToolButton:disabled,
+#btnAdd:disabled,
+#btnAddUser:disabled,
+#btnAddParam:disabled,
+#btnPass:disabled,
+#btnRemove:disabled,
+#btnRemoveUser:disabled,
+#btnDelete:disabled,
+#btnRemoveBlocks:disabled,
+#btnRemoveParam:disabled,
+#btnStop:disabled,
+#btnReset:disabled,
+#btnResetUser:disabled
+{
+    background-color: #3B4453;
+}

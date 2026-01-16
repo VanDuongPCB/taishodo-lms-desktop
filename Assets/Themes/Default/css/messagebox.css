@@ -1,0 +1,16 @@
+#HxMsgCriticalHigh
+{
+    background-color: #ff7b7b;
+}
+
+#HxMsgCriticalHigh QLabel
+{
+    color: #ffffff;
+    font-size: 32px;
+}
+
+#HxMsgCriticalHigh QTextEdit
+{
+    background-color: #b60000;
+    color: #ffffff;
+}
