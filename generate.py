@@ -3,7 +3,6 @@ import re
 from pathlib import Path
 import subprocess
 
-
 def check_qt():
     print("Checking for Qt installation...")
     current_dir = os.path.dirname(os.path.abspath(__file__))
@@ -67,27 +66,24 @@ def check_sources():
     pass
 
 
-def generate_dirs():
-    print("Generating directory structure...")
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    ide_dir = os.path.join(current_dir, "_ide")
-    build_dir = os.path.join(current_dir, "_build")
-
-    os.environ.update({
-                        "IDE_DIR": f"{ide_dir}",
-                        "BUILD_DIR": f"{build_dir}",
-                    })
-    
-    os.makedirs(ide_dir, exist_ok=True)
-    os.makedirs(build_dir, exist_ok=True)
-    return True
-
 def check_version():
     print("Checking version...")
 
     major_vesion = 99
     minor_version = 9
     patch_version = 9
+
+    try:
+        git_tag = subprocess.check_output( ["git", "describe", "--tags", "--abbrev=0"], stderr=subprocess.DEVNULL ).decode().strip()
+        print(f"Git tag found: {git_tag}")
+        version_match = re.match(r"(\d+)\.(\d+)\.(\d+)$", git_tag)
+        if version_match:
+            major_vesion = int(version_match.group(1))
+            minor_version = int(version_match.group(2))
+            patch_version = int(version_match.group(3))
+            print(f"Version parsed: {major_vesion}.{minor_version}.{patch_version}")
+    except subprocess.CalledProcessError:
+        print("Using default version 99.9.9")
 
     os.environ.update({
                         "BUILD_MAJOR_VERSION": f"{major_vesion}",
@@ -100,6 +96,17 @@ def check_version():
 
 def generate_ide_files():
     print("Generating IDE files...")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    cmake_dir = os.path.join(current_dir, "Sources")
+    ide_dir = os.path.join(current_dir, "_ide")
+    build_dir = os.path.join(current_dir, "_build")
+    installer_dir = os.path.join(current_dir, "_installers")
+
+    os.environ.update({
+                        "IDE_DIR": f"{ide_dir}",
+                        "BUILD_DIR": f"{build_dir}",
+                    })
+    
     print(f"IDE_DIR = {os.environ['IDE_DIR']}")
     print(f"BUILD_DIR = {os.environ['BUILD_DIR']}")
     print(f"SOURCE_DIR = {os.environ['SOURCE_DIR']}")
@@ -113,10 +120,64 @@ def generate_ide_files():
     print(f"BUILD_PATCH_VERSION = {os.environ['BUILD_PATCH_VERSION']}")
     print(f"BUILD_VERSION = {os.environ['BUILD_VERSION']}")
 
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    cmake_dir = os.path.join(current_dir, "Sources")
+    os.makedirs(ide_dir, exist_ok=True)
+    os.makedirs(build_dir, exist_ok=True)
+    os.makedirs(installer_dir, exist_ok=True)
+
     # Windows 
     subprocess.run(["cmake", cmake_dir], cwd=os.environ["IDE_DIR"])
+    return True
+
+def generate_innosetup_script():
+    print("Generating Inno Setup script...")
+    current_dir = os.path.dirname(os.path.abspath(__file__))
+    installer_dir = os.path.join(current_dir, "_installers")
+
+    script_lines = [
+        "#define MyAppName                 \"Laser Marking System\"",
+        "#define MyAppVersion              \"" + os.environ["BUILD_VERSION"] + "\"",
+        "#define MyAppExeName              \"LMS.exe\"",
+        "#define MyAppIconName             \"../Assets/Icons/lms.ico\"",
+        "#define MyInputDir                \"../_build\"",
+        "#define MyOutputDir               \"/\"",
+
+        "[Setup]",
+        "AppId=                            {{94CC9D54-7579-42EA-B8A2-1120D7EB9539}",
+        "AppName=                          {#MyAppName}",
+        "AppVersion=                       {#MyAppVersion}",
+        "SetupIconFile=                    {#MyAppIconName}",
+        "DefaultDirName=                   {autopf}\{#MyAppName}\{#MyAppVersion}",
+        "UninstallDisplayIcon=             {app}\{#MyAppExeName}",
+        "OutputDir=                        {#MyOutputDir}",
+        "ArchitecturesAllowed=             x64compatible",
+        "ArchitecturesInstallIn64BitMode=  x64compatible",
+        "ChangesAssociations=              yes",
+        "DisableProgramGroupPage=          no",
+        "DisableDirPage=                   no",
+        "OutputBaseFilename=               {#MyAppName}_{#MyAppVersion}",
+        "SolidCompression=                 yes",
+        "WizardStyle=                      modern",
+
+        "[Languages]",
+        "Name: \"english\"; MessagesFile: \"compiler:Default.isl\"",
+
+        "[Tasks]",
+        "Name: \"desktopicon\"; Description: \"{cm:CreateDesktopIcon}\"; GroupDescription: \"{cm:AdditionalIcons}\"; Flags: unchecked",
+
+        "[Files]",
+        "Source: \"{#MyInputDir}\\*\"; DestDir: \"{app}\"; Flags: ignoreversion recursesubdirs createallsubdirs",
+
+        "[Icons]",
+        "Name: \"{autoprograms}\\{#MyAppName} {#MyAppVersion}\"; Filename: \"{app}\\{#MyAppExeName}\"",
+        "Name: \"{autodesktop}\\{#MyAppName} {#MyAppVersion}\"; Filename: \"{app}\\{#MyAppExeName}\"; Tasks: desktopicon",
+
+        "[Run]",
+        "Filename: \"{app}\\{#MyAppExeName}\"; Description: \"{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}\"; Flags: nowait postinstall skipifsilent"
+    ]
+
+    with open(os.path.join(installer_dir, "installer_script.iss"), "w") as script_file:
+        script_file.write("\n".join(script_lines))
+
     return True
 
 def main():
@@ -126,13 +187,11 @@ def main():
     if not check_sources():
         return
     
-    if not generate_dirs():
-        return
-    
     if not check_version():
         return
 
     generate_ide_files()
+    generate_innosetup_script()
     pass
 
 
