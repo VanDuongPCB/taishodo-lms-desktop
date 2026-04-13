@@ -45,3 +45,4 @@ _3rdparty/*
 _ide/*
 _build/*
 _installers/*
+_vcpkg/*
