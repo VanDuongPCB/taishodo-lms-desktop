@@ -60,6 +60,15 @@ endif()
 # ---------------------------------------------------------------------------
 # Thư mục con
 # ---------------------------------------------------------------------------
+# xQt là submodule (VanDuongPCB/lib-xqt). Chỉ nạp khi nó đã có CMakeLists.txt,
+# để configure không hỏng khi submodule chưa được checkout hoặc còn trống.
+if(EXISTS "${CMAKE_CURRENT_SOURCE_DIR}/xQt/CMakeLists.txt")
+    add_subdirectory(xQt)
+else()
+    message(STATUS "xQt: no CMakeLists.txt found in Sources/xQt, skipped "
+                   "(run 'git submodule update --init' if the folder is empty)")
+endif()
+
 add_subdirectory(Desktop)
 
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT LMS)
