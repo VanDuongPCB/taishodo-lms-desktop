@@ -79,6 +79,12 @@ target_link_libraries(LMS PRIVATE
     Qt6::Concurrent
 )
 
+# Thư viện widget tuỳ biến xQt (submodule Sources/xQt), chỉ khi được nạp ở gốc.
+if(TARGET xQt::xQt)
+    target_link_libraries(LMS PRIVATE xQt::xQt)
+    target_compile_definitions(LMS PRIVATE LMS_HAS_XQT)
+endif()
+
 # ---------------------------------------------------------------------------
 # Tài nguyên runtime: copy cạnh exe sau mỗi lần build.
 # Mã nguồn tìm "Default Files/LMS.db" và "Themes" theo applicationDirPath().
