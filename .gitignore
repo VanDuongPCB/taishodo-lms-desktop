@@ -46,3 +46,5 @@ _ide/*
 _build/*
 _installers/*
 _vcpkg/*
+# generator.py local settings
+.generator.json

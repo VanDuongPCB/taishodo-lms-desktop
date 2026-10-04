@@ -1,60 +1,65 @@
-cmake_minimum_required(VERSION 3.10)
-project(Desktop)
+cmake_minimum_required(VERSION 3.21)
 
-set(CMAKE_CXX_STANDARD 17)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS_RELWITHDEBINFO "/O2 /Zi /DNDEBUG")
-set(CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO "/DEBUG")
-set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Choose the type of build." FORCE)
+# ---------------------------------------------------------------------------
+# Phiên bản
+# generator.py truyền -DBUILD_MAJOR_VERSION / MINOR / PATCH.
+# Không truyền thì mặc định 99.99.99 (bản dev).
+# ---------------------------------------------------------------------------
+set(BUILD_MAJOR_VERSION 99 CACHE STRING "Major version")
+set(BUILD_MINOR_VERSION 99 CACHE STRING "Minor version")
+set(BUILD_PATCH_VERSION 99 CACHE STRING "Patch version")
 
-set(CMAKE_AUTOMOC ON)
-set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
-
-file(GLOB HEADER_FILES *.h)
-file(GLOB SOURCE_FILES *.cpp)
-file(GLOB UI_FILES *.ui)
-file(GLOB RESOURCE_FILES ../Assets/Icons/*.qrc)
-file(GLOB RESOURCE_ICONS ../Assets/Icons/*.rc)
-
-source_group("Forms" FILES ${UI_FILES})
-source_group("Resources" FILES ${RESOURCE_FILES})
-source_group("Resources" FILES ${RESOURCE_ICONS})
-
-set(APP_TYPE WIN32)
-add_executable(${PROJECT_NAME} ${APP_TYPE} ${SOURCE_FILES} ${HEADER_FILES} ${UI_FILES} ${RESOURCE_FILES} ${RESOURCE_ICONS})
-
-find_package(Qt6 REQUIRED COMPONENTS Core Widgets Gui Network SerialPort Sql Concurrent)
-
-target_link_libraries(${PROJECT_NAME} PRIVATE
-Qt6::Core
-Qt6::Widgets
-Qt6::Network
-Qt6::SerialPort
-Qt6::Sql
-Qt6::Concurrent
+project(LMS
+    VERSION ${BUILD_MAJOR_VERSION}.${BUILD_MINOR_VERSION}.${BUILD_PATCH_VERSION}
+    DESCRIPTION "Laser Marking System"
+    LANGUAGES CXX
 )
 
-# Qt deploy
-get_target_property(QMAKE_EXECUTABLE Qt6::qmake IMPORTED_LOCATION)
-get_filename_component(QT_BIN_DIR "${QMAKE_EXECUTABLE}" DIRECTORY)
-find_program(WINDEPLOYQT_EXECUTABLE windeployqt HINTS "${QT_BIN_DIR}")
+# ---------------------------------------------------------------------------
+# Cấu hình chung
+# ---------------------------------------------------------------------------
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
+set(CMAKE_CXX_EXTENSIONS OFF)
 
-# Post-build
-if(CMAKE_SYSTEM_NAME MATCHES "Windows")
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-        COMMAND "${WINDEPLOYQT_EXECUTABLE}"
-                $<$<CONFIG:Debug>:--debug>
-                $<$<CONFIG:Release>:--release>
-                $<$<CONFIG:RelWithDebInfo>:--release>
-                $<$<CONFIG:MinSizeRel>:--release>
-                --compiler-runtime
-                "$<TARGET_FILE:${PROJECT_NAME}>"
-        COMMENT "Running windeployqt..."
-    )
-    file(COPY "../Default Files" DESTINATION ${BUILD_DIR})
-    file(COPY "../Assets/Themes" DESTINATION ${BUILD_DIR})
-endif() 
+# Qt (bản cài chính thức hoặc vcpkg) dùng CRT động (/MD, /MDd). Khai báo tường minh để không lệch CRT.
+# Thư mục Qt được generator.py truyền qua -DCMAKE_PREFIX_PATH=<kit>, ví dụ C:/Qt/6.8.0/msvc2022_64.
+set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
+# Cấu hình build. Mặc định là RelWithDebInfo ở mọi loại generator.
+#  - Visual Studio / Ninja Multi-Config: danh sách cấu hình, cái đầu tiên là
+#    cấu hình Visual Studio chọn sẵn khi mở solution. MinSizeRel bỏ vì không dùng.
+#  - Ninja / Makefile (đơn cấu hình): CMAKE_BUILD_TYPE, chỉ đặt khi người dùng
+#    chưa truyền -DCMAKE_BUILD_TYPE.
+get_property(LMS_IS_MULTI_CONFIG GLOBAL PROPERTY GENERATOR_IS_MULTI_CONFIG)
+if(LMS_IS_MULTI_CONFIG)
+    set(CMAKE_CONFIGURATION_TYPES "RelWithDebInfo;Release;Debug" CACHE STRING "Build configurations" FORCE)
+    # Chỉ Ninja Multi-Config hiểu biến này; Visual Studio sẽ báo lỗi nếu đặt.
+    if(CMAKE_GENERATOR MATCHES "Ninja Multi-Config")
+        set(CMAKE_DEFAULT_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Default configuration" FORCE)
+    endif()
+elseif(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE "RelWithDebInfo" CACHE STRING "Build type" FORCE)
+    set_property(CACHE CMAKE_BUILD_TYPE PROPERTY STRINGS RelWithDebInfo Release Debug)
+endif()
 
+# ---------------------------------------------------------------------------
+# Thư mục xuất
+# generator.py truyền -DBUILD_DIR và -DINSTALL_DIR. Không truyền thì nằm trong
+# thư mục build của CMake, không bao giờ rơi ra gốc ổ đĩa.
+# ---------------------------------------------------------------------------
+if(NOT DEFINED BUILD_DIR OR BUILD_DIR STREQUAL "")
+    set(BUILD_DIR "${CMAKE_BINARY_DIR}/out")
+endif()
+set(LMS_OUTPUT_DIR "${BUILD_DIR}" CACHE PATH "Thư mục chứa exe và tài nguyên runtime")
 
+if(DEFINED INSTALL_DIR AND NOT INSTALL_DIR STREQUAL "" AND CMAKE_INSTALL_PREFIX_INITIALIZED_TO_DEFAULT)
+    set(CMAKE_INSTALL_PREFIX "${INSTALL_DIR}" CACHE PATH "Thư mục install" FORCE)
+endif()
+
+# ---------------------------------------------------------------------------
+# Thư mục con
+# ---------------------------------------------------------------------------
+add_subdirectory(Desktop)
+
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT LMS)
