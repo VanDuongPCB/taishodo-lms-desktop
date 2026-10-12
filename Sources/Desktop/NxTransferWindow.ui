@@ -19,7 +19,7 @@
     <height>48</height>
    </size>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="XWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <property name="topMargin">
      <number>50</number>
@@ -28,7 +28,7 @@
      <number>20</number>
     </property>
     <item row="0" column="1">
-     <widget class="QLabel" name="label">
+     <widget class="XLabel" name="label">
       <property name="font">
        <font>
         <pointsize>12</pointsize>
@@ -43,7 +43,7 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QComboBox" name="cbxModel">
+     <widget class="XComboBox" name="cbxModel">
       <property name="minimumSize">
        <size>
         <width>500</width>
@@ -58,7 +58,7 @@
      </widget>
     </item>
     <item row="2" column="1">
-     <widget class="QLabel" name="label_2">
+     <widget class="XLabel" name="label_2">
       <property name="font">
        <font>
         <pointsize>12</pointsize>
@@ -117,7 +117,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QToolButton" name="btnPass">
+       <widget class="XToolButton" name="btnPass">
         <property name="minimumSize">
          <size>
           <width>100</width>
@@ -143,7 +143,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QToolButton" name="btnStop">
+       <widget class="XToolButton" name="btnStop">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -187,7 +187,7 @@
      </layout>
     </item>
     <item row="3" column="1">
-     <widget class="QDoubleSpinBox" name="spxCvWidth">
+     <widget class="XDoubleSpinBox" name="spxCvWidth">
       <property name="font">
        <font>
         <pointsize>20</pointsize>
@@ -214,6 +214,34 @@
    </layout>
   </widget>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XWidget</class>
+   <extends>QWidget</extends>
+   <header>XWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>XComboBox</class>
+   <extends>QComboBox</extends>
+   <header>XComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>XDoubleSpinBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XToolButton</class>
+   <extends>QToolButton</extends>
+   <header>XToolButton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../Assets/Icons/icons.qrc"/>
  </resources>

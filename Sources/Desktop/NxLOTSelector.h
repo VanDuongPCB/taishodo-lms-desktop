@@ -1,6 +1,7 @@
 #pragma once
 #include "QDialog"
 
+#include "XDialog.h"
 #include "NxLOT.h"
 #include "NxModel.h"
 
@@ -9,7 +10,7 @@ namespace Ui
 	class LOTSelector;
 }
 
-class NxLOTSelector : public QDialog
+class NxLOTSelector : public XDialog
 {
 public:
 	NxLOTSelector(QWidget* parent  = nullptr);

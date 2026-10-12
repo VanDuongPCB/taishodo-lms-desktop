@@ -1,51 +1,36 @@
 #pragma once
 #include "QApplication"
-#include "QFile"
-#include "QFont"
-#include "QProxyStyle"
-#include "QStyleFactory"
-#include "QFileSystemWatcher"
-#include "NxSettings.h"
+#include "QColor"
+#include "QObject"
+#include "QPoint"
+#include "QString"
+#include "QStringList"
 
+void MakeTransparentWindow( QWidget* pWidget );
+void MakeShadow( QWidget* pWidget, QPoint offset = QPoint( 0, 0 ), double radius = 20, QColor color = Qt::black );
 
-void MakeTransparentWindow(QWidget* pWidget);
-void MakeShadow(QWidget* pWidget, QPoint offset = QPoint(0,0), double radius = 20, QColor color = Qt::black);
-
-
-struct NxColorPalette
-{
-    QPalette::ColorGroup group;
-    QPalette::ColorRole role;
-};
-
-class NxTheme: public QObject
+// Lớp mỏng trên XStyleManager (xQt), giữ API cũ của ứng dụng.
+// Theme nằm trong resource ":/themes/<Tên>" (Sources/Resources/themes, sinh bởi
+// tools/generate_theme.py, nhúng qua Sources/Resources/themes.qrc). Registry
+// "Theme/RootDir" có thể trỏ sang thư mục ngoài cùng cấu trúc để sửa theme nóng;
+// "Theme/Current" là tên theme đang dùng (mặc định "Light").
+class NxTheme : public QObject
 {
     Q_OBJECT
 public:
     NxTheme();
     ~NxTheme();
-    QStringList GetThemes();
-    QString GetStyleSheets(const QStringList& names = {});
-    QColor GetColor(const QString& profile);
 
-    void SetTheme(const QString& name);
-    void Refresh();
+    QStringList GetThemes();                                 // tên các theme có trong root hiện tại
+    QString CurrentTheme() const;
+    QString GetStyleSheets( const QStringList& names = {} ); // toàn bộ hoặc theo tên file ("messagebox")
+    QColor GetColor( const QString& name );                  // biến màu trong data/variables.json
+
+    void SetTheme( const QString& name );                    // lưu registry và áp dụng
+    void Refresh();                                          // nạp lại theme theo registry
+
 private:
-    HxRegistrySetting m_settings;
-    QString m_themeDir;
-    QFileSystemWatcher* m_pThemeWatcher = nullptr;
-    std::map<QString, QString> m_styleSheets;
-    std::map<QString, QString> m_colorMap;
-    std::map<NxColorPalette, QColor> m_colorPalettes;
-
-    bool eventFilter( QObject* watched, QEvent* event );
-
-    void Reset();
-    void LoadStyleSheets();
-    void LoadColors();
-    void LoadPalette();
-    void OnThemeChanged(const QString &path);
+    void EnsureSettings();                                   // root/current hợp lệ, mặc định resource + Light
 };
 
 NxTheme* Theme();
-

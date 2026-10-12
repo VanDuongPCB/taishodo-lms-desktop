@@ -40,7 +40,7 @@
     </spacer>
    </item>
    <item row="2" column="0" colspan="3">
-    <widget class="QComboBox" name="cbxProfile">
+    <widget class="XComboBox" name="cbxProfile">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -74,7 +74,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLabel" name="label_3">
+    <widget class="XLabel" name="label_3">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -102,7 +102,7 @@
     </widget>
    </item>
    <item row="3" column="0" colspan="3">
-    <widget class="QLabel" name="label_2">
+    <widget class="XLabel" name="label_2">
      <property name="text">
       <string>Mật khẩu</string>
      </property>
@@ -122,7 +122,7 @@
     </spacer>
    </item>
    <item row="5" column="0" colspan="3">
-    <widget class="QPushButton" name="btnLogin">
+    <widget class="XPushButton" name="btnLogin">
      <property name="minimumSize">
       <size>
        <width>100</width>
@@ -148,7 +148,7 @@
     </spacer>
    </item>
    <item row="4" column="0" colspan="3">
-    <widget class="QLineEdit" name="txtPassword">
+    <widget class="XLineEdit" name="txtPassword">
      <property name="minimumSize">
       <size>
        <width>0</width>
@@ -165,6 +165,28 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>XLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XPushButton</class>
+   <extends>QPushButton</extends>
+   <header>XPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XComboBox</class>
+   <extends>QComboBox</extends>
+   <header>XComboBox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../Assets/Icons/icons.qrc"/>
  </resources>

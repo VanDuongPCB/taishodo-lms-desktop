@@ -14,7 +14,7 @@ namespace
     int s_maxBlockCount = 32;
 }
 
-NxDesignWindow::NxDesignWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::DesignWindow )
+NxDesignWindow::NxDesignWindow( QWidget* parent ) : XMainWindow( parent ), ui( new Ui::DesignWindow )
 {
     ui->setupUi( this );
 

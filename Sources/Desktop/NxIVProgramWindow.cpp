@@ -3,7 +3,7 @@
 
 #include "NxIVProgram.h"
 
-NxIVProgramWindow::NxIVProgramWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::IVWindow )
+NxIVProgramWindow::NxIVProgramWindow( QWidget* parent ) : XMainWindow( parent ), ui( new Ui::IVWindow )
 {
     ui->setupUi( this );
 

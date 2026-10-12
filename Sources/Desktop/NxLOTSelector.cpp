@@ -1,10 +1,10 @@
 ﻿#include "NxLOTSelector.h"
-#include "ui_nxlotselector.h"
+#include "ui_NxLOTSelector.h"
 #include "NxLOT.h"
 #include "NxConvert.h"
 #include "NxMarker.h"
 
-NxLOTSelector::NxLOTSelector( QWidget* parent ) : QDialog( parent ), ui( new Ui::LOTSelector )
+NxLOTSelector::NxLOTSelector( QWidget* parent ) : XDialog( parent ), ui( new Ui::LOTSelector )
 {
     ui->setupUi( this );
 

@@ -1,12 +1,13 @@
 #pragma once
 #include "QMainWindow"
 
+#include "XMainWindow.h"
 namespace Ui
 {
     class ControlWindow;
 }
 
-class NxControlWindow : public QMainWindow
+class NxControlWindow : public XMainWindow
 {
     Q_OBJECT
 

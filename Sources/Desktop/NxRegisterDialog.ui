@@ -40,28 +40,28 @@
     </spacer>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="XLabel" name="label_2">
      <property name="text">
       <string>Key</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="txtID">
+    <widget class="XLineEdit" name="txtID">
      <property name="readOnly">
       <bool>true</bool>
      </property>
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="XLabel" name="label">
      <property name="text">
       <string>ID</string>
      </property>
     </widget>
    </item>
    <item row="0" column="2">
-    <widget class="QLineEdit" name="txtVersion">
+    <widget class="XLineEdit" name="txtVersion">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
        <horstretch>0</horstretch>
@@ -86,7 +86,7 @@
     </widget>
    </item>
    <item row="1" column="1" colspan="2">
-    <widget class="QLineEdit" name="txtKey"/>
+    <widget class="XLineEdit" name="txtKey"/>
    </item>
    <item row="3" column="0" colspan="3">
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -104,7 +104,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="btnRegister">
+      <widget class="XPushButton" name="btnRegister">
        <property name="text">
         <string>Đăng ký</string>
        </property>
@@ -130,6 +130,23 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>XLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XPushButton</class>
+   <extends>QPushButton</extends>
+   <header>XPushButton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

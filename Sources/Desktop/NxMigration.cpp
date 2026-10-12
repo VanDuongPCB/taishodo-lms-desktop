@@ -28,8 +28,16 @@ void CheckAndCopyDB()
     }
     else
     {
-        QString defaultFile = qApp->applicationDirPath() + "/Default Files/LMS.db";
-        QFile::copy( defaultFile, databaseFile );
+        // DB mẫu nằm trong resource (Default Files/default_files.qrc). File copy từ
+        // resource bị read-only nên phải mở quyền ghi sau khi copy.
+        QString defaultFile = ":/default/LMS.db";
+        QDir().mkpath( QFileInfo( databaseFile ).absolutePath() );
+        if ( QFile::copy( defaultFile, databaseFile ) )
+        {
+            QFile::setPermissions( databaseFile, QFile::ReadOwner | QFile::WriteOwner |
+                                                 QFile::ReadUser | QFile::WriteUser |
+                                                 QFile::ReadGroup | QFile::ReadOther );
+        }
     }
     QThread::msleep( 1000 );
 }
@@ -54,9 +62,9 @@ void MigrateLOTs( const QString& dir )
 
     std::set<QString> paramNames;
 
-    for ( auto& fileInfo : fileInfos )
+    for ( auto& entry : fileInfos )
     {
-        QString lotName = fileInfo.baseName().toUpper();
+        QString lotName = entry.baseName().toUpper();
         QString filePath = dir + "/" + lotName + ".lot";
 
         QFileInfo fileInfo( filePath );
@@ -124,9 +132,9 @@ void MigrateModels( const QString& dir )
 
     std::set<QString> paramNames;
 
-    for ( auto& fileInfo : fileInfos )
+    for ( auto& entry : fileInfos )
     {
-        QString designName = fileInfo.baseName().toUpper();
+        QString designName = entry.baseName().toUpper();
         QString filePath = dir + "/" + designName + ".model";
 
         QFileInfo fileInfo( filePath );

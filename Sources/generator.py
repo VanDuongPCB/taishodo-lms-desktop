@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Interactive CMake project generator for LMS.
+Interactive CMake project generator for LMS (Windows and Linux/macOS).
 
 Run without arguments for the interactive mode:
 
@@ -15,15 +15,32 @@ Run without arguments for the interactive mode:
 
 Settings are remembered in <root>/.generator.json.
 
+Platforms:
+    Windows   Visual Studio generators (auto-detected) or Ninja.
+    Linux/mac Ninja, Ninja Multi-Config or Unix Makefiles. Qt is looked up in
+              ~/Qt, /opt/Qt, the system install (/usr/lib/*/cmake/Qt6) and
+              through qtpaths6 / qmake6 on PATH.
+
+Output directories:
+    The IDE, build and install directories are base directories. The script
+    appends a target subdirectory "<os>-<arch>" (windows-x64, linux-x64,
+    linux-ARM64, ...) so one checkout can be configured for several targets
+    side by side:
+
+        <root>/_ide/windows-x64      <root>/_ide/linux-x64
+        <root>/_build/windows-x64    <root>/_build/linux-x64
+
 Non-interactive use (CI): pass --yes. The table is printed, CMake runs if every
 option is valid, otherwise the script exits with code 2.
 
     python generator.py --qt C:/Qt/6.8.0/msvc2022_64 --version 25.1.2 --yes
+    python generator.py --qt ~/Qt/6.8.0/gcc_64 -G Ninja --version 25.1.2 --yes
 """
 
 import argparse
 import json
 import os
+import platform
 import re
 import shutil
 import subprocess
@@ -35,17 +52,56 @@ ROOT_DIR = SCRIPT_DIR.parent                   # .../LMS
 SETTINGS_FILE = ROOT_DIR / ".generator.json"
 
 DEFAULT_VERSION = "99.99.99"
-DEFAULT_ARCH = "x64"
+
+# ---------------------------------------------------------------------------
+# Host platform
+# ---------------------------------------------------------------------------
+if os.name == "nt":
+    HOST_OS = "windows"
+elif sys.platform == "darwin":
+    HOST_OS = "macos"
+else:
+    HOST_OS = "linux"
+IS_WINDOWS = HOST_OS == "windows"
+
+
+def detect_host_arch():
+    m = platform.machine().lower()
+    if m in ("amd64", "x86_64"):
+        return "x64"
+    if m in ("arm64", "aarch64"):
+        return "ARM64"
+    if m in ("x86", "i386", "i686"):
+        return "Win32" if IS_WINDOWS else "x86"
+    return m or "unknown"
+
+
+HOST_ARCH = detect_host_arch()
+DEFAULT_ARCH = HOST_ARCH
 
 QT_MODULES = ("Core", "Gui", "Widgets", "Network", "SerialPort", "Sql", "Concurrent")
-QT_ROOTS = ("C:/Qt", "D:/Qt", "E:/Qt")                       # official layout: <root>/<version>/<kit>
-QT_THIRDPARTY_ROOTS = ("C:/_ThirdParty/libqt", "D:/_ThirdParty/libqt", "E:/_ThirdParty/libqt")  # team layout: <root>/<os>/<arch>
+if IS_WINDOWS:
+    QT_ROOTS = ("C:/Qt", "D:/Qt", "E:/Qt")                       # official layout: <root>/<version>/<kit>
+    QT_THIRDPARTY_ROOTS = ("C:/_ThirdParty/libqt", "D:/_ThirdParty/libqt", "E:/_ThirdParty/libqt")  # team layout: <root>/<os>/<arch>
+    QT_SYSTEM_CMAKE_GLOBS = ()
+else:
+    QT_ROOTS = ("~/Qt", "/opt/Qt", "/opt/qt", "/usr/local/Qt")
+    QT_THIRDPARTY_ROOTS = ("~/_ThirdParty/libqt", "/opt/_ThirdParty/libqt")
+    QT_SYSTEM_CMAKE_GLOBS = (                                    # distro packages: directory holding Qt6Config.cmake
+        "/usr/lib/*/cmake/Qt6",
+        "/usr/lib64/cmake/Qt6",
+        "/usr/lib/cmake/Qt6",
+        "/usr/local/lib/cmake/Qt6",
+        "/usr/local/lib/*/cmake/Qt6",
+    )
 
 VS_YEAR_TO_MAJOR = {"2017": 15, "2019": 16, "2022": 17, "2026": 18}
 VS_MAJOR_TO_YEAR = {v: k for k, v in VS_YEAR_TO_MAJOR.items()}
 VS_EDITIONS = ("Enterprise", "Professional", "Community", "Preview", "BuildTools")
 NINJA_GENERATORS = ("Ninja", "Ninja Multi-Config")
-ARCHS = ("x64", "Win32", "ARM64")
+MAKE_GENERATORS = ("Unix Makefiles",)
+MULTI_CONFIG_GENERATORS = ("Ninja Multi-Config",)
+VS_ARCHS = ("x64", "Win32", "ARM64")
 
 
 # ---------------------------------------------------------------------------
@@ -64,7 +120,7 @@ class Color:
     @classmethod
     def setup(cls, force_off=False):
         cls.enabled = not force_off and sys.stdout.isatty() and not os.environ.get("NO_COLOR")
-        if cls.enabled and os.name == "nt":
+        if cls.enabled and IS_WINDOWS:
             try:
                 import ctypes
                 kernel32 = ctypes.windll.kernel32
@@ -125,36 +181,62 @@ def is_vs_generator(name):
     return bool(name) and name.startswith("Visual Studio")
 
 
+def is_multi_config_generator(name):
+    return is_vs_generator(name) or name in MULTI_CONFIG_GENERATORS
+
+
 # ---------------------------------------------------------------------------
 # Qt
+# A Qt value may be a kit directory (<kit>/lib/cmake/Qt6/Qt6Config.cmake, the
+# official installer and the team layout), the directory that holds
+# Qt6Config.cmake itself (distro packages, e.g. /usr/lib/x86_64-linux-gnu/cmake/Qt6)
+# or any path inside one of those.
 # ---------------------------------------------------------------------------
-def qt_config(qt_dir):
-    return Path(qt_dir) / "lib" / "cmake" / "Qt6" / "Qt6Config.cmake"
-
-
-def qt_missing_modules(qt_dir):
-    return [m for m in QT_MODULES if not (Path(qt_dir) / "lib" / "cmake" / f"Qt6{m}").is_dir()]
-
-
-def qt_kit_from_path(value):
-    """Accept a kit dir, or a path inside it (e.g. .../lib/cmake/Qt6), return the kit dir."""
+def qt_cmake_dir(value):
+    """Directory holding Qt6Config.cmake for `value`, or '' if none."""
     if not value:
         return ""
     p = Path(value).expanduser()
-    for candidate in (p, p.parent.parent.parent):
-        if qt_config(candidate).exists():
-            return candidate.resolve().as_posix()
+    candidates = [p / "lib" / "cmake" / "Qt6", p / "cmake" / "Qt6", p]
+    candidates += list(p.parents)[:3]
+    for c in candidates:
+        if (c / "Qt6Config.cmake").is_file():
+            return c.resolve().as_posix()
     return ""
 
 
+def qt_kit_dir(cmake_dir):
+    """Kit root for a <kit>/lib/cmake/Qt6 layout, '' for a system install."""
+    if not cmake_dir:
+        return ""
+    kit = Path(cmake_dir).parent.parent.parent
+    if (kit / "lib" / "cmake" / "Qt6" / "Qt6Config.cmake").is_file():
+        return kit.resolve().as_posix()
+    return ""
+
+
+def qt_normalize(value):
+    """Canonical Qt value: kit dir when it is a kit, else the Qt6 cmake dir. '' if invalid."""
+    cmake_dir = qt_cmake_dir(value)
+    return qt_kit_dir(cmake_dir) or cmake_dir
+
+
+def qt_missing_modules(value):
+    cmake_dir = qt_cmake_dir(value)
+    if not cmake_dir:
+        return list(QT_MODULES)
+    base = Path(cmake_dir).parent
+    return [m for m in QT_MODULES if not (base / f"Qt6{m}").is_dir()]
+
+
 def detect_qt_kits():
-    """Return list of (kit_dir, description)."""
+    """Return list of (qt_value, description)."""
     found = []
 
     def add(path, desc):
-        kit = qt_kit_from_path(path)
-        if kit and kit not in [k for k, _ in found]:
-            found.append((kit, desc))
+        qt = qt_normalize(path)
+        if qt and qt not in [k for k, _ in found]:
+            found.append((qt, desc))
 
     for var in ("Qt6_DIR", "QT_DIR", "QTDIR", "CMAKE_PREFIX_PATH"):
         for p in os.environ.get(var, "").split(os.pathsep):
@@ -162,7 +244,7 @@ def detect_qt_kits():
                 add(p, var)
 
     for root in QT_ROOTS:
-        root_path = Path(root)
+        root_path = Path(root).expanduser()
         if not root_path.is_dir():
             continue
         versions = sorted((d for d in root_path.glob("6.*") if d.is_dir()),
@@ -170,16 +252,28 @@ def detect_qt_kits():
                           reverse=True)
         for ver in versions:
             for kit in sorted(ver.iterdir()):
-                if kit.is_dir() and qt_config(kit).exists():
+                if kit.is_dir() and qt_cmake_dir(kit):
                     add(kit, f"Qt {ver.name}")
 
     for root in QT_THIRDPARTY_ROOTS:
-        root_path = Path(root)
+        root_path = Path(root).expanduser()
         if not root_path.is_dir():
             continue
         for kit in sorted(root_path.glob("*/*")):
-            if kit.is_dir() and qt_config(kit).exists():
+            if kit.is_dir() and qt_cmake_dir(kit):
                 add(kit, "third-party")
+
+    for pattern in QT_SYSTEM_CMAKE_GLOBS:
+        for d in sorted(Path("/").glob(pattern.lstrip("/"))):
+            add(d, "system")
+
+    for tool in ("qtpaths6", "qmake6", "qtpaths", "qmake"):
+        exe = shutil.which(tool)
+        if not exe:
+            continue
+        libs = run_capture([exe, "-query", "QT_INSTALL_LIBS"])
+        if libs:
+            add(Path(libs) / "cmake" / "Qt6", tool)
     return found
 
 
@@ -195,10 +289,12 @@ def detect_git_version():
 
 def detect_visual_studios():
     """
-    Return a list of dicts {generator, instance, path}.
+    Return a list of dicts {generator, instance, path}. Empty outside Windows.
     `instance` is set only when the installation is not registered with the
     Visual Studio Installer; CMake then needs CMAKE_GENERATOR_INSTANCE.
     """
+    if not IS_WINDOWS:
+        return []
     found = []
     seen = set()
 
@@ -254,6 +350,48 @@ def detect_visual_studios():
 
 
 # ---------------------------------------------------------------------------
+# Generators
+# ---------------------------------------------------------------------------
+def generator_choices(vs_list):
+    choices = []
+    if IS_WINDOWS:
+        choices += [(vs["generator"], vs["path"]) for vs in vs_list]
+    for g in NINJA_GENERATORS:
+        choices.append((g, "ninja found" if shutil.which("ninja") else "requires ninja on PATH"))
+    if not IS_WINDOWS:
+        for g in MAKE_GENERATORS:
+            choices.append((g, "make found" if shutil.which("make") else "requires make on PATH"))
+    return choices
+
+
+def default_generator(vs_list):
+    if IS_WINDOWS and vs_list:
+        return vs_list[0]["generator"]
+    if shutil.which("ninja"):
+        return "Ninja"
+    if not IS_WINDOWS and shutil.which("make"):
+        return "Unix Makefiles"
+    return ""
+
+
+def generator_error(name, vs_instance, vs_list):
+    """'' when `name` can be used on this host, else the reason."""
+    if not name:
+        return "not set"
+    if is_vs_generator(name):
+        if not IS_WINDOWS:
+            return f"Visual Studio generators are only available on Windows (host: {HOST_OS})"
+        if any(v["generator"] == name for v in vs_list) or vs_instance:
+            return ""
+        return "Visual Studio not detected (set VS instance)"
+    if name in NINJA_GENERATORS and not shutil.which("ninja"):
+        return "ninja not found on PATH"
+    if name in MAKE_GENERATORS and not shutil.which("make"):
+        return "make not found on PATH"
+    return ""
+
+
+# ---------------------------------------------------------------------------
 # Settings
 # ---------------------------------------------------------------------------
 KEYS = ("qt", "generator", "vs_instance", "arch", "version", "ide_dir", "build_dir", "install_dir")
@@ -290,6 +428,23 @@ def save_settings(s):
 
 
 # ---------------------------------------------------------------------------
+# Target (os-arch) and output directories
+# ---------------------------------------------------------------------------
+def effective_arch(s):
+    """Visual Studio builds the architecture given by -A; every other generator builds for the host."""
+    return s["arch"] if is_vs_generator(s["generator"]) else HOST_ARCH
+
+
+def target_tag(s):
+    return f"{HOST_OS}-{effective_arch(s)}"
+
+
+def effective_dir(s, key):
+    """<base dir>/<os>-<arch>"""
+    return (Path(s[key]) / target_tag(s)).as_posix()
+
+
+# ---------------------------------------------------------------------------
 # Validation
 # ---------------------------------------------------------------------------
 class Row:
@@ -297,17 +452,17 @@ class Row:
         self.key, self.label, self.value, self.ok, self.note = key, label, value, ok, note
 
 
-def validate_qt(qt_dir):
-    if not qt_dir:
+def validate_qt(value):
+    if not value:
         return False, "not set"
-    path = Path(qt_dir).expanduser()
+    path = Path(value).expanduser()
     if not path.exists():
-        return False, f"directory does not exist: {qt_dir}"
+        return False, f"directory does not exist: {value}"
     if not path.is_dir():
-        return False, f"not a directory: {qt_dir}"
-    if not qt_config(path).exists():
-        return False, "lib/cmake/Qt6/Qt6Config.cmake not found (not a Qt kit directory)"
-    missing = qt_missing_modules(qt_dir)
+        return False, f"not a directory: {value}"
+    if not qt_cmake_dir(path):
+        return False, "Qt6Config.cmake not found (expected <kit>/lib/cmake/Qt6 or a Qt6 cmake directory)"
+    missing = qt_missing_modules(value)
     if missing:
         return False, "missing Qt modules: " + ", ".join(missing)
     return True, ""
@@ -320,23 +475,15 @@ def validate(s, vs_list):
     rows.append(Row("qt", "Qt dir", s["qt"], qt_ok, note))
 
     gen = s["generator"]
-    if not gen:
-        gen_ok, note = False, "not set"
-    elif is_vs_generator(gen):
-        detected = any(v["generator"] == gen for v in vs_list)
-        gen_ok = detected or bool(s["vs_instance"])
-        note = "" if gen_ok else "Visual Studio not detected (set VS instance)"
-    elif gen in NINJA_GENERATORS:
-        gen_ok = bool(shutil.which("ninja"))
-        note = "" if gen_ok else "ninja not found on PATH"
-    else:
-        gen_ok, note = True, ""
-    rows.append(Row("generator", "CMake generator", gen, gen_ok, note))
+    note = generator_error(gen, s["vs_instance"], vs_list)
+    rows.append(Row("generator", "CMake generator", gen, not note, note))
 
     if is_vs_generator(gen):
         rows.append(Row("vs_instance", "VS instance", s["vs_instance"] or "(CMake default)", True))
-        arch_ok = s["arch"] in ARCHS
-        rows.append(Row("arch", "Architecture", s["arch"], arch_ok, "" if arch_ok else f"one of {', '.join(ARCHS)}"))
+        arch_ok = s["arch"] in VS_ARCHS
+        rows.append(Row("arch", "Architecture", s["arch"], arch_ok, "" if arch_ok else f"one of {', '.join(VS_ARCHS)}"))
+
+    rows.append(Row("target", "Target", target_tag(s), True))
 
     ver_ok = bool(re.fullmatch(r"\d+\.\d+\.\d+", s["version"]))
     rows.append(Row("version", "Version", s["version"], ver_ok, "" if ver_ok else "expected X.Y.Z"))
@@ -344,14 +491,14 @@ def validate(s, vs_list):
     for key, label in (("ide_dir", "IDE dir"), ("build_dir", "Build dir"), ("install_dir", "Install dir")):
         v = s[key]
         if not v:
-            ok, note = False, "not set"
+            ok, note, shown = False, "not set", ""
         elif not Path(v).is_absolute():
-            ok, note = False, "must be an absolute path"
+            ok, note, shown = False, "must be an absolute path", v
         elif Path(v).resolve() == SCRIPT_DIR.resolve():
-            ok, note = False, "must not be the source directory"
+            ok, note, shown = False, "must not be the source directory", v
         else:
-            ok, note = True, ""
-        rows.append(Row(key, label, v, ok, note))
+            ok, note, shown = True, "", effective_dir(s, key)
+        rows.append(Row(key, label, shown, ok, note))
 
     return rows
 
@@ -423,7 +570,7 @@ def choose(title, current, choices, default="", allow_custom=True, allow_empty=F
 
 def configure(s, vs_list):
     """Walk through every option. Returns False if the user aborted (EOF)."""
-    print(bold("\n=== Setup ==="))
+    print(bold(f"\n=== Setup ({HOST_OS}, host arch {HOST_ARCH}) ==="))
 
     # Qt
     kits = detect_qt_kits()
@@ -432,29 +579,32 @@ def configure(s, vs_list):
         choices.insert(0, (s["qt"], "current"))
 
     def qt_validator(x):
-        kit = qt_kit_from_path(x)
-        ok, note = validate_qt(kit or x)
+        ok, note = validate_qt(qt_normalize(x) or x)
         return "" if ok else note
 
-    v = choose("Qt directory (e.g. C:/Qt/6.8.0/msvc2022_64)", s["qt"], choices,
+    if IS_WINDOWS:
+        example = "C:/Qt/6.8.0/msvc2022_64"
+    else:
+        example = "~/Qt/6.8.0/gcc_64 or /usr/lib/x86_64-linux-gnu/cmake/Qt6"
+    v = choose(f"Qt directory (e.g. {example})", s["qt"], choices,
                default=kits[0][0] if kits else "", validator=qt_validator)
     if v is None:
         return False
-    s["qt"] = qt_kit_from_path(v) or norm_path(v)
+    s["qt"] = qt_normalize(v) or norm_path(v)
     save_settings(s)
 
     # generator
-    choices = [(vs["generator"], vs["path"]) for vs in vs_list]
-    for g in NINJA_GENERATORS:
-        choices.append((g, "ninja found" if shutil.which("ninja") else "requires ninja on PATH"))
+    choices = generator_choices(vs_list)
+    if s["generator"] and s["generator"] not in [c for c, _ in choices]:
+        choices.insert(0, (s["generator"], "current"))
 
     def gen_validator(x):
-        if x in NINJA_GENERATORS and not shutil.which("ninja"):
-            return "ninja not found on PATH"
-        return ""
+        # vs_instance is unknown until the generator is chosen; an undetected VS is handled below.
+        err = generator_error(x, s["vs_instance"], vs_list)
+        return "" if not err or err.startswith("Visual Studio not detected") else err
 
     v = choose("CMake generator", s["generator"], choices,
-               default=vs_list[0]["generator"] if vs_list else "", validator=gen_validator)
+               default=default_generator(vs_list), validator=gen_validator)
     if v is None:
         return False
     s["generator"] = v
@@ -470,11 +620,14 @@ def configure(s, vs_list):
                 return False
             s["vs_instance"] = v
             save_settings(s)
-        v = choose("architecture", s["arch"], [(a, "") for a in ARCHS],
-                   default=DEFAULT_ARCH, allow_custom=False)
+        v = choose("architecture", s["arch"] if s["arch"] in VS_ARCHS else "", [(a, "") for a in VS_ARCHS],
+                   default=HOST_ARCH if HOST_ARCH in VS_ARCHS else "x64", allow_custom=False)
         if v is None:
             return False
         s["arch"] = v
+        save_settings(s)
+    else:
+        s["arch"] = HOST_ARCH
         save_settings(s)
 
     # version
@@ -498,13 +651,15 @@ def configure(s, vs_list):
             return "must not be the source directory"
         return ""
 
-    for key, label, default in (("ide_dir", "IDE directory (CMake build tree, .sln)", ROOT_DIR / "_ide"),
-                                ("build_dir", "build directory (exe + runtime resources)", ROOT_DIR / "_build"),
-                                ("install_dir", "install directory (cmake --install)", ROOT_DIR / "_install")):
+    tag = target_tag(s)
+    for key, label, default in (("ide_dir", "IDE base directory (CMake build tree, .sln)", ROOT_DIR / "_ide"),
+                                ("build_dir", "build base directory (exe + runtime resources)", ROOT_DIR / "_build"),
+                                ("install_dir", "install base directory (cmake --install)", ROOT_DIR / "_install")):
         choices = [(default.as_posix(), "default")]
         if s[key] and norm_path(s[key]) != default.as_posix():
             choices.insert(0, (norm_path(s[key]), "current"))
-        v = choose(label, s[key], choices, default=default.as_posix(), validator=dir_validator)
+        v = choose(f"{label}; the target subdirectory /{tag} is appended", s[key], choices,
+                   default=default.as_posix(), validator=dir_validator)
         if v is None:
             return False
         s[key] = norm_path(v)
@@ -523,15 +678,24 @@ def build_command(s):
         cmd += ["-A", s["arch"]]
         if s["vs_instance"]:
             cmd += [f"-DCMAKE_GENERATOR_INSTANCE={s['vs_instance']}"]
+
+    # Kit layout: CMAKE_PREFIX_PATH=<kit> (also finds tools next to it).
+    # Any layout: Qt6_DIR=<dir holding Qt6Config.cmake>, which is what distro packages need.
+    qt_cmake = qt_cmake_dir(s["qt"])
+    qt_kit = qt_kit_dir(qt_cmake)
+    if qt_kit:
+        cmd += [f"-DCMAKE_PREFIX_PATH={qt_kit}"]
+    if qt_cmake:
+        cmd += [f"-DQt6_DIR={qt_cmake}"]
+
     cmd += [
-        f"-DCMAKE_PREFIX_PATH={Path(s['qt']).as_posix()}",
         f"-DBUILD_MAJOR_VERSION={major}",
         f"-DBUILD_MINOR_VERSION={minor}",
         f"-DBUILD_PATCH_VERSION={patch}",
-        f"-DBUILD_DIR={Path(s['build_dir']).as_posix()}",
-        f"-DINSTALL_DIR={Path(s['install_dir']).as_posix()}",
+        f"-DBUILD_DIR={effective_dir(s, 'build_dir')}",
+        f"-DINSTALL_DIR={effective_dir(s, 'install_dir')}",
         "-S", SCRIPT_DIR.as_posix(),
-        "-B", Path(s["ide_dir"]).as_posix(),
+        "-B", effective_dir(s, "ide_dir"),
     ]
     return cmd, f"{major}.{minor}.{patch}"
 
@@ -552,7 +716,7 @@ def run_cmake(s, dry_run=False):
         return 0
 
     for key in ("ide_dir", "build_dir", "install_dir"):
-        Path(s[key]).mkdir(parents=True, exist_ok=True)
+        Path(effective_dir(s, key)).mkdir(parents=True, exist_ok=True)
 
     result = subprocess.run(cmd)
     print()
@@ -561,10 +725,15 @@ def run_cmake(s, dry_run=False):
         return result.returncode
 
     print(green("cmake finished successfully."))
+    ide_dir = effective_dir(s, "ide_dir")
     if is_vs_generator(s["generator"]):
-        slns = sorted(Path(s["ide_dir"]).glob("*.sln"))
+        slns = sorted(Path(ide_dir).glob("*.sln"))
         if slns:
             print(f"Solution: {slns[0]}")
+    elif is_multi_config_generator(s["generator"]):
+        print(f"Build:    cmake --build {ide_dir} --config RelWithDebInfo")
+    else:
+        print(f"Build:    cmake --build {ide_dir}")
     return 0
 
 
@@ -574,14 +743,15 @@ def run_cmake(s, dry_run=False):
 def parse_args():
     p = argparse.ArgumentParser(description="Generate the CMake project for LMS.",
                                 formatter_class=argparse.RawDescriptionHelpFormatter, epilog=__doc__)
-    p.add_argument("--qt", metavar="DIR", help="Qt kit directory, e.g. C:/Qt/6.8.0/msvc2022_64")
+    p.add_argument("--qt", metavar="DIR", help="Qt kit directory (C:/Qt/6.8.0/msvc2022_64, ~/Qt/6.8.0/gcc_64) "
+                                               "or the directory holding Qt6Config.cmake")
     p.add_argument("--generator", "-G", metavar="NAME", help="CMake generator")
-    p.add_argument("--vs-instance", metavar="PATH[,version=X]", help="CMAKE_GENERATOR_INSTANCE")
-    p.add_argument("--arch", "-A", metavar="ARCH", help=f"Architecture for Visual Studio ({'/'.join(ARCHS)})")
+    p.add_argument("--vs-instance", metavar="PATH[,version=X]", help="CMAKE_GENERATOR_INSTANCE (Windows)")
+    p.add_argument("--arch", "-A", metavar="ARCH", help=f"Architecture for Visual Studio ({'/'.join(VS_ARCHS)})")
     p.add_argument("--version", metavar="X.Y.Z", help="Build version")
-    p.add_argument("--ide-dir", metavar="DIR", help="CMake build tree (.sln)")
-    p.add_argument("--build-dir", metavar="DIR", help="exe and runtime resources")
-    p.add_argument("--install-dir", metavar="DIR", help="cmake --install target")
+    p.add_argument("--ide-dir", metavar="DIR", help="CMake build tree base (.sln); <os>-<arch> is appended")
+    p.add_argument("--build-dir", metavar="DIR", help="exe and runtime resources base; <os>-<arch> is appended")
+    p.add_argument("--install-dir", metavar="DIR", help="cmake --install target base; <os>-<arch> is appended")
     p.add_argument("--reset", action="store_true", help="ignore saved settings")
     p.add_argument("--yes", "-y", action="store_true", help="non-interactive: run cmake if all options are valid")
     p.add_argument("--dry-run", action="store_true", help="non-interactive: print the cmake command only")
@@ -591,7 +761,7 @@ def parse_args():
 
 def apply_args(s, args):
     if args.qt:
-        s["qt"] = qt_kit_from_path(args.qt) or norm_path(args.qt)
+        s["qt"] = qt_normalize(args.qt) or norm_path(args.qt)
     if args.generator:
         s["generator"] = args.generator
         s["vs_instance"] = args.vs_instance or ""
@@ -604,6 +774,24 @@ def apply_args(s, args):
     for key, val in (("ide_dir", args.ide_dir), ("build_dir", args.build_dir), ("install_dir", args.install_dir)):
         if val:
             s[key] = norm_path(val)
+
+
+def drop_foreign_host_settings(s, vs_list):
+    """
+    .generator.json may come from a checkout last configured on another OS
+    (e.g. a Windows "E:/LMS/_ide" path or a Visual Studio generator loaded on
+    Linux). Such values can never be valid here, so fall back to the host
+    defaults instead of forcing a reconfigure for each of them.
+    """
+    defaults = default_settings()
+    if is_vs_generator(s["generator"]) and not IS_WINDOWS:
+        s["generator"] = default_generator(vs_list)
+        s["vs_instance"] = ""
+    for key in ("ide_dir", "build_dir", "install_dir"):
+        if s[key] and not Path(s[key]).is_absolute():      # drive-letter path on POSIX, or POSIX path on Windows
+            s[key] = defaults[key]
+    if s["qt"] and not Path(s["qt"]).is_absolute():
+        s["qt"] = ""
 
 
 def menu():
@@ -630,16 +818,20 @@ def main():
     s = default_settings()
     if not args.reset:
         s.update(load_settings())
+        drop_foreign_host_settings(s, vs_list)
     if not s["qt"]:
         kits = detect_qt_kits()
         if kits:
             s["qt"] = kits[0][0]
-    if not s["generator"] and vs_list:
-        s["generator"] = vs_list[0]["generator"]
-        s["vs_instance"] = vs_list[0]["instance"] or ""
+    if not s["generator"]:
+        s["generator"] = default_generator(vs_list)
+        match = next((vs for vs in vs_list if vs["generator"] == s["generator"]), None)
+        s["vs_instance"] = (match["instance"] or "") if match else ""
+    if not is_vs_generator(s["generator"]):
+        s["arch"] = HOST_ARCH
     apply_args(s, args)
 
-    print(bold("LMS - CMake generator"))
+    print(bold(f"LMS - CMake generator ({HOST_OS}, {HOST_ARCH})"))
 
     # Non-interactive -------------------------------------------------------
     if args.yes or args.dry_run:
@@ -647,6 +839,7 @@ def main():
         print_table(rows)
         bad = [r for r in rows if not r.ok]
         if bad:
+            sys.stdout.flush()
             print(red("Invalid options: " + "; ".join(f"{r.label}: {r.note}" for r in bad)), file=sys.stderr)
             return 2
         save_settings(s)

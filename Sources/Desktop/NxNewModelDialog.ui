@@ -30,7 +30,7 @@
     <number>9</number>
    </property>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_6">
+    <widget class="XLabel" name="label_6">
      <property name="text">
       <string>In mã lô</string>
      </property>
@@ -40,7 +40,7 @@
     </widget>
    </item>
    <item row="0" column="0">
-    <widget class="QLabel" name="label_2">
+    <widget class="XLabel" name="label_2">
      <property name="text">
       <string>Mã model</string>
      </property>
@@ -50,7 +50,7 @@
     </widget>
    </item>
    <item row="4" column="1">
-    <widget class="QComboBox" name="cbxStopper">
+    <widget class="XComboBox" name="cbxStopper">
      <item>
       <property name="text">
        <string>1</string>
@@ -69,7 +69,7 @@
     </widget>
    </item>
    <item row="4" column="0">
-    <widget class="QLabel" name="label_5">
+    <widget class="XLabel" name="label_5">
      <property name="text">
       <string>Stopper</string>
      </property>
@@ -79,7 +79,7 @@
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLineEdit" name="txtModelCode"/>
+    <widget class="XLineEdit" name="txtModelCode"/>
    </item>
    <item row="9" column="0" colspan="2">
     <layout class="QHBoxLayout" name="horizontalLayout">
@@ -97,7 +97,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="btnCreate">
+      <widget class="XPushButton" name="btnCreate">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -128,7 +128,7 @@
     </layout>
    </item>
    <item row="7" column="0">
-    <widget class="QLabel" name="label_4">
+    <widget class="XLabel" name="label_4">
      <property name="text">
       <string>Độ rộng băng tải</string>
      </property>
@@ -138,7 +138,7 @@
     </widget>
    </item>
    <item row="5" column="0">
-    <widget class="QLabel" name="label_7">
+    <widget class="XLabel" name="label_7">
      <property name="text">
       <string>Mẫu tem</string>
      </property>
@@ -148,7 +148,7 @@
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLineEdit" name="txtModelName"/>
+    <widget class="XLineEdit" name="txtModelName"/>
    </item>
    <item row="8" column="1">
     <spacer name="verticalSpacer">
@@ -164,14 +164,14 @@
     </spacer>
    </item>
    <item row="2" column="1">
-    <widget class="QCheckBox" name="chxPrintLo">
+    <widget class="XCheckBox" name="chxPrintLo">
      <property name="text">
       <string/>
      </property>
     </widget>
    </item>
    <item row="3" column="0">
-    <widget class="QLabel" name="label_3">
+    <widget class="XLabel" name="label_3">
      <property name="text">
       <string>No</string>
      </property>
@@ -181,7 +181,7 @@
     </widget>
    </item>
    <item row="7" column="1">
-    <widget class="QDoubleSpinBox" name="spxCvWidth">
+    <widget class="XDoubleSpinBox" name="spxCvWidth">
      <property name="decimals">
       <number>1</number>
      </property>
@@ -197,14 +197,14 @@
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLineEdit" name="txtModelNo">
+    <widget class="XLineEdit" name="txtModelNo">
      <property name="text">
       <string>KXXX</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="XLabel" name="label">
      <property name="text">
       <string>Tên model</string>
      </property>
@@ -214,7 +214,7 @@
     </widget>
    </item>
    <item row="6" column="0">
-    <widget class="QLabel" name="label_8">
+    <widget class="XLabel" name="label_8">
      <property name="text">
       <string>Chương trình IV</string>
      </property>
@@ -224,14 +224,14 @@
     </widget>
    </item>
    <item row="6" column="1">
-    <widget class="QComboBox" name="cbxIV">
+    <widget class="XComboBox" name="cbxIV">
      <property name="editable">
       <bool>true</bool>
      </property>
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QSpinBox" name="spxDesign">
+    <widget class="XSpinBox" name="spxDesign">
      <property name="maximum">
       <number>1999</number>
      </property>
@@ -239,6 +239,43 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>XLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XPushButton</class>
+   <extends>QPushButton</extends>
+   <header>XPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>XCheckBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XComboBox</class>
+   <extends>QComboBox</extends>
+   <header>XComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>XSpinBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>XDoubleSpinBox.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

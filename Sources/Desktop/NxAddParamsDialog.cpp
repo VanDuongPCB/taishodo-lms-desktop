@@ -1,7 +1,7 @@
 #include "NxAddParamsDialog.h"
 #include "ui_NxAddParamsDialog.h"
 
-NxAddParamsDialog::NxAddParamsDialog( QWidget* parent ) : QDialog( parent ), ui( new Ui::AddParamsDialog )
+NxAddParamsDialog::NxAddParamsDialog( QWidget* parent ) : XDialog( parent ), ui( new Ui::AddParamsDialog )
 {
     ui->setupUi( this );
 }

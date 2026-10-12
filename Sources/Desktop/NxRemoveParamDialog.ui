@@ -15,17 +15,17 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="0" column="0">
-    <widget class="QLabel" name="label">
+    <widget class="XLabel" name="label">
      <property name="text">
       <string>Xóa thông tin</string>
      </property>
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QPlainTextEdit" name="txtParamNames"/>
+    <widget class="XPlainTextEdit" name="txtParamNames"/>
    </item>
    <item row="3" column="0">
-    <widget class="QCheckBox" name="checkBox">
+    <widget class="XCheckBox" name="checkBox">
      <property name="enabled">
       <bool>false</bool>
      </property>
@@ -35,7 +35,7 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QCheckBox" name="chxApplyAll">
+    <widget class="XCheckBox" name="chxApplyAll">
      <property name="text">
       <string>Xóa ở các đối tượng tương tự</string>
      </property>
@@ -60,7 +60,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="btnRemove">
+      <widget class="XPushButton" name="btnRemove">
        <property name="text">
         <string>Xóa</string>
        </property>
@@ -83,6 +83,28 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XPushButton</class>
+   <extends>QPushButton</extends>
+   <header>XPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>XCheckBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XPlainTextEdit</class>
+   <extends>QPlainTextEdit</extends>
+   <header>XPlainTextEdit.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -1,5 +1,6 @@
 #pragma once
 #include "QDialog"
+#include "XDialog.h"
 #include "QStandardItem"
 #include "NxLOT.h"
 #include "NxModel.h"
@@ -10,7 +11,7 @@ namespace Ui
     class LotPropertyDialog;
 }
 
-class NxLOTPropertyDialog : public QDialog
+class NxLOTPropertyDialog : public XDialog
 {
     Q_OBJECT
 

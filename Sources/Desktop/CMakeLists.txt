@@ -25,7 +25,14 @@ set(LMS_DEFAULT_FILES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Default Files")
 file(GLOB LMS_HEADERS   CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.h")
 file(GLOB LMS_SOURCES   CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.cpp")
 file(GLOB LMS_FORMS     CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/*.ui")
-file(GLOB LMS_RESOURCES CONFIGURE_DEPENDS "${LMS_ASSETS_DIR}/Icons/*.qrc")
+# Qt resources: icons (Assets/Icons/icons.qrc) plus the generated lists in
+# Sources/Resources (themes.qrc, default_files.qrc). Regenerate those with
+#   python Sources/tools/generate_qrc.py
+set(LMS_RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../Resources")
+file(GLOB LMS_RESOURCES CONFIGURE_DEPENDS
+    "${LMS_ASSETS_DIR}/Icons/*.qrc"
+    "${LMS_RESOURCES_DIR}/*.qrc"
+)
 
 set(LMS_WIN_RESOURCES)
 if(WIN32)
@@ -58,6 +65,11 @@ set_target_properties(LMS PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY  "${LMS_OUTPUT_DIR}/$<CONFIG>/lib"
 )
 
+# Header sinh bởi uic (ui_*.h) nằm trong thư mục autogen và include header widget
+# tuỳ biến (NxTableView.h, ...) theo tên trần. MSVC tìm ngược theo chuỗi include nên
+# vẫn thấy, GCC/Clang thì cần thư mục nguồn nằm trong include path.
+target_include_directories(LMS PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+
 target_compile_definitions(LMS PRIVATE
     BUILD_MAJOR_VERSION=${LMS_VERSION_MAJOR}
     BUILD_MINOR_VERSION=${LMS_VERSION_MINOR}
@@ -85,20 +97,9 @@ if(TARGET xQt::xQt)
     target_compile_definitions(LMS PRIVATE LMS_HAS_XQT)
 endif()
 
-# ---------------------------------------------------------------------------
-# Tài nguyên runtime: copy cạnh exe sau mỗi lần build.
-# Mã nguồn tìm "Default Files/LMS.db" và "Themes" theo applicationDirPath().
-# ---------------------------------------------------------------------------
-add_custom_command(TARGET LMS POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${LMS_DEFAULT_FILES_DIR}"
-            "$<TARGET_FILE_DIR:LMS>/Default Files"
-    COMMAND ${CMAKE_COMMAND} -E copy_directory
-            "${LMS_ASSETS_DIR}/Themes"
-            "$<TARGET_FILE_DIR:LMS>/Themes"
-    COMMENT "Copying runtime resources next to LMS.exe"
-    VERBATIM
-)
+# Themes và Default Files đã nằm trong resource (:/themes, :/default), không copy
+# cạnh exe nữa. Muốn sửa theme nóng khi chạy, trỏ registry Theme/RootDir sang một
+# thư mục ngoài có cùng cấu trúc.
 
 # ---------------------------------------------------------------------------
 # Qt deploy sau build (Windows): kéo DLL Qt, plugin và CRT về cạnh exe.
@@ -136,13 +137,21 @@ install(TARGETS LMS
     BUNDLE  DESTINATION .
     RUNTIME DESTINATION .
 )
-install(DIRECTORY "${LMS_DEFAULT_FILES_DIR}" DESTINATION .)
-install(DIRECTORY "${LMS_ASSETS_DIR}/Themes" DESTINATION .)
 
-qt_generate_deploy_app_script(
-    TARGET LMS
-    OUTPUT_SCRIPT LMS_DEPLOY_SCRIPT
-    NO_UNSUPPORTED_PLATFORM_ERROR
-    NO_TRANSLATIONS
-)
+# Qt < 6.5 (ví dụ 6.4.2 của Ubuntu 24.04) chưa có OUTPUT_SCRIPT và NO_TRANSLATIONS,
+# dùng FILENAME_VARIABLE thay thế.
+if(Qt6_VERSION VERSION_GREATER_EQUAL 6.5)
+    qt_generate_deploy_app_script(
+        TARGET LMS
+        OUTPUT_SCRIPT LMS_DEPLOY_SCRIPT
+        NO_UNSUPPORTED_PLATFORM_ERROR
+        NO_TRANSLATIONS
+    )
+else()
+    qt_generate_deploy_app_script(
+        TARGET LMS
+        FILENAME_VARIABLE LMS_DEPLOY_SCRIPT
+        NO_UNSUPPORTED_PLATFORM_ERROR
+    )
+endif()
 install(SCRIPT ${LMS_DEPLOY_SCRIPT})

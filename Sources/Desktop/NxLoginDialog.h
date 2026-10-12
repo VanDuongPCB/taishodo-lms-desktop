@@ -1,6 +1,7 @@
 #pragma once
 #include <QDialog>
 
+#include "XDialog.h"
 #include "NxProfile.h"
 
 namespace Ui
@@ -8,7 +9,7 @@ namespace Ui
     class LoginDialog;
 }
 
-class NxLoginDialog : public QDialog
+class NxLoginDialog : public XDialog
 {
     Q_OBJECT
 

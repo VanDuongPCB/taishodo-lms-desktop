@@ -1,5 +1,6 @@
 #pragma once
 #include "QDialog"
+#include "XDialog.h"
 #include "NxModel.h"
 
 namespace Ui
@@ -7,7 +8,7 @@ namespace Ui
     class NewModelDialog;
 }
 
-class NxNewModelDialog : public QDialog
+class NxNewModelDialog : public XDialog
 {
     Q_OBJECT
 

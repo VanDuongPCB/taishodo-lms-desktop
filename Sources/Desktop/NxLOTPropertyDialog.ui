@@ -30,7 +30,7 @@
     <number>9</number>
    </property>
    <item row="0" column="0">
-    <widget class="QLabel" name="label_10">
+    <widget class="XLabel" name="label_10">
      <property name="font">
       <font>
        <bold>true</bold>
@@ -57,7 +57,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QPushButton" name="btnCreateOrChange">
+      <widget class="XPushButton" name="btnCreateOrChange">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -91,7 +91,7 @@
     </layout>
    </item>
    <item row="0" column="1">
-    <widget class="QLabel" name="label_11">
+    <widget class="XLabel" name="label_11">
      <property name="font">
       <font>
        <bold>true</bold>
@@ -122,7 +122,7 @@
     </widget>
    </item>
    <item row="1" column="0">
-    <widget class="QWidget" name="widget" native="true">
+    <widget class="XWidget" name="widget" native="true">
      <property name="sizePolicy">
       <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
        <horstretch>0</horstretch>
@@ -146,21 +146,21 @@
        <number>0</number>
       </property>
       <item row="4" column="0">
-       <widget class="QLabel" name="label_6">
+       <widget class="XLabel" name="label_6">
         <property name="text">
          <string>Bộ đếm</string>
         </property>
        </widget>
       </item>
       <item row="6" column="0">
-       <widget class="QLabel" name="label_8">
+       <widget class="XLabel" name="label_8">
         <property name="text">
          <string>MAC cuối</string>
         </property>
        </widget>
       </item>
       <item row="6" column="1">
-       <widget class="QLineEdit" name="txtMACEnd">
+       <widget class="XLineEdit" name="txtMACEnd">
         <property name="text">
          <string/>
         </property>
@@ -170,42 +170,42 @@
        </widget>
       </item>
       <item row="2" column="1">
-       <widget class="QLineEdit" name="txtCounterStart">
+       <widget class="XLineEdit" name="txtCounterStart">
         <property name="text">
          <string/>
         </property>
        </widget>
       </item>
       <item row="7" column="0">
-       <widget class="QLabel" name="label_2">
+       <widget class="XLabel" name="label_2">
         <property name="text">
          <string>Model</string>
         </property>
        </widget>
       </item>
       <item row="8" column="1">
-       <widget class="QLineEdit" name="txtDesign">
+       <widget class="XLineEdit" name="txtDesign">
         <property name="readOnly">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item row="0" column="0">
-       <widget class="QLabel" name="label">
+       <widget class="XLabel" name="label">
         <property name="text">
          <string>Tên</string>
         </property>
        </widget>
       </item>
       <item row="2" column="0">
-       <widget class="QLabel" name="label_5">
+       <widget class="XLabel" name="label_5">
         <property name="text">
          <string>Bộ đếm đầu</string>
         </property>
        </widget>
       </item>
       <item row="3" column="1">
-       <widget class="QSpinBox" name="spxQuantity">
+       <widget class="XSpinBox" name="spxQuantity">
         <property name="minimum">
          <number>1</number>
         </property>
@@ -215,49 +215,49 @@
        </widget>
       </item>
       <item row="5" column="0">
-       <widget class="QLabel" name="label_7">
+       <widget class="XLabel" name="label_7">
         <property name="text">
          <string>MAC đầu</string>
         </property>
        </widget>
       </item>
       <item row="3" column="0">
-       <widget class="QLabel" name="label_9">
+       <widget class="XLabel" name="label_9">
         <property name="text">
          <string>Sản lượng</string>
         </property>
        </widget>
       </item>
       <item row="4" column="1">
-       <widget class="QLineEdit" name="txtCounter">
+       <widget class="XLineEdit" name="txtCounter">
         <property name="readOnly">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item row="7" column="1">
-       <widget class="QComboBox" name="cbxModel">
+       <widget class="XComboBox" name="cbxModel">
         <property name="editable">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item row="9" column="1">
-       <widget class="QLineEdit" name="txtProgram">
+       <widget class="XLineEdit" name="txtProgram">
         <property name="readOnly">
          <bool>true</bool>
         </property>
        </widget>
       </item>
       <item row="9" column="0">
-       <widget class="QLabel" name="label_4">
+       <widget class="XLabel" name="label_4">
         <property name="text">
          <string>Chương trình IV</string>
         </property>
        </widget>
       </item>
       <item row="0" column="1">
-       <widget class="QLineEdit" name="txtName">
+       <widget class="XLineEdit" name="txtName">
         <property name="minimumSize">
          <size>
           <width>0</width>
@@ -267,7 +267,7 @@
        </widget>
       </item>
       <item row="1" column="1">
-       <widget class="QCheckBox" name="chxRePrint">
+       <widget class="XCheckBox" name="chxRePrint">
         <property name="enabled">
          <bool>false</bool>
         </property>
@@ -280,7 +280,7 @@
        </widget>
       </item>
       <item row="5" column="1">
-       <widget class="QLineEdit" name="txtMACStart">
+       <widget class="XLineEdit" name="txtMACStart">
         <property name="text">
          <string/>
         </property>
@@ -290,7 +290,7 @@
        </widget>
       </item>
       <item row="8" column="0">
-       <widget class="QLabel" name="label_3">
+       <widget class="XLabel" name="label_3">
         <property name="text">
          <string>Thiết kế</string>
         </property>
@@ -326,7 +326,7 @@
     </widget>
    </item>
    <item row="2" column="0">
-    <widget class="QLabel" name="label_12">
+    <widget class="XLabel" name="label_12">
      <property name="font">
       <font>
        <bold>true</bold>
@@ -344,6 +344,42 @@
    <class>NxTableView</class>
    <extends>QTableView</extends>
    <header>NxTableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>XLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XWidget</class>
+   <extends>QWidget</extends>
+   <header>XWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>XPushButton</class>
+   <extends>QPushButton</extends>
+   <header>XPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>XCheckBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XComboBox</class>
+   <extends>QComboBox</extends>
+   <header>XComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>XSpinBox.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

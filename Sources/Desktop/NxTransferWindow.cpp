@@ -1,5 +1,5 @@
 #include "NxTransferWindow.h"
-#include "ui_nxtransferwindow.h"
+#include "ui_NxTransferWindow.h"
 #include "NxModel.h"
 #include "NxMarker.h"
 #include "NxPLC.h"
@@ -8,7 +8,7 @@
 #include "NxSystemReport.h"
 #include "NxEvent.h"
 
-NxTransferWindow::NxTransferWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::TransferWindow )
+NxTransferWindow::NxTransferWindow( QWidget* parent ) : XMainWindow( parent ), ui( new Ui::TransferWindow )
 {
     ui->setupUi( this );
     qApp->installEventFilter( this );
@@ -34,7 +34,7 @@ bool NxTransferWindow::eventFilter( QObject* watched, QEvent* event )
     NxEvent* NxEvent( nullptr );
     NxEvent::Type type;
     if ( !NxEvent::IsCustomEvent( event, NxEvent, type ) )
-        return QMainWindow::eventFilter( watched, event );
+        return XMainWindow::eventFilter( watched, event );
 
     switch ( type )
     {
@@ -64,7 +64,7 @@ bool NxTransferWindow::eventFilter( QObject* watched, QEvent* event )
         break;
     }
 
-    return QMainWindow::eventFilter( watched, event );
+    return XMainWindow::eventFilter( watched, event );
 }
 
 void NxTransferWindow::OnShowModels()

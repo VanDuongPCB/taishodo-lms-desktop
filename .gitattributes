@@ -1,0 +1,12 @@
+# Chuẩn hoá kết thúc dòng: lưu LF trong repo, checkout theo core.autocrlf của từng máy
+* text=auto
+
+# Nhị phân
+*.png binary
+*.ico binary
+*.jpg binary
+*.db  binary
+*.7z  binary
+*.zip binary
+*.exe binary
+*.dll binary

@@ -1,6 +1,7 @@
 #pragma once
 #include "QMainWindow"
 
+#include "XMainWindow.h"
 #include "NxLOT.h"
 #include "NxException.h"
 
@@ -9,7 +10,7 @@ namespace Ui
     class IVWindow;
 }
 
-class NxIVProgramWindow : public QMainWindow
+class NxIVProgramWindow : public XMainWindow
 {
     Q_OBJECT
 

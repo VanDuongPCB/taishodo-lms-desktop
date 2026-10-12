@@ -1,12 +1,13 @@
 #pragma once
 #include "QDialog"
 
+#include "XDialog.h"
 namespace Ui
 {
     class RemoveParamDialog;
 }
 
-class NxRemoveParamDialog : public QDialog
+class NxRemoveParamDialog : public XDialog
 {
     Q_OBJECT
 

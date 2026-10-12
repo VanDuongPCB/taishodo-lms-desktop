@@ -1,5 +1,5 @@
 #include "NxLOTWindow.h"
-#include "ui_nxlotwindow.h"
+#include "ui_NxLOTWindow.h"
 #include "NxLOTPropertyDialog.h"
 
 #include "QLabel"
@@ -8,7 +8,7 @@
 #include "NxMarker.h"
 #include "NxConvert.h"
 
-NxLOTWindow::NxLOTWindow( QWidget* parent ) :QMainWindow( parent ), ui( new Ui::LotWindow )
+NxLOTWindow::NxLOTWindow( QWidget* parent ) :XMainWindow( parent ), ui( new Ui::LotWindow )
 {
     ui->setupUi( this );
 

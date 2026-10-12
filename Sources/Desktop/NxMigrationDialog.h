@@ -1,5 +1,6 @@
 #pragma once
 #include "QDialog"
+#include "XDialog.h"
 #include "QWidget"
 
 #include "NxSettings.h"
@@ -10,7 +11,7 @@ namespace Ui
 }
 
 
-class NxMigrationDialog :public QDialog
+class NxMigrationDialog : public XDialog
 {
     Q_OBJECT
 public:

@@ -1,5 +1,7 @@
 #pragma once
 #include <QMainWindow>
+#include "XMainWindow.h"
+#include "XToolButton.h"
 #include "QLabel"
 #include "NxException.h"
 #include "NxLOT.h"
@@ -20,7 +22,7 @@ namespace Ui
     class MainWindow;
 }
 
-class NxMainWindow : public QMainWindow
+class NxMainWindow : public XMainWindow
 {
     Q_OBJECT
 
@@ -33,6 +35,7 @@ private slots:
 private:
     Ui::MainWindow* ui;
     QLabel* m_pLblVersion = nullptr;
+    XToolButton* m_pLoginButton = nullptr;   // thay cho tab "Đăng nhập", nằm ở góc trái thanh tab
     int m_currentTabIndex = 0;
 
     NxMarkWindow* m_pMarkWindow = nullptr;
@@ -55,5 +58,6 @@ private:
     void OnUnLockUIForSuper();
     void OnUnLockUIForAdmin();
     void OnTabChanged( int index );
+    void SetTabVisible( QWidget* pPage, bool bVisible );
 };
 

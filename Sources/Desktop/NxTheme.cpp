@@ -1,16 +1,35 @@
 #include "NxTheme.h"
 
-#include "QCoreApplication"
-#include "QSettings"
+#include "QDebug"
 #include "QDir"
+#include "QFileInfo"
 #include "QGraphicsDropShadowEffect"
-#include "QToolTip"
-#include "QJsonDocument"
-#include "QJsonObject"
+#include "QWidget"
 
-#include "NxFileManager.h"
 #include "NxSettings.h"
-#include "NxEvent.h"
+#include "XStyleManager.h"
+
+namespace
+{
+    const char* const kEmbeddedRoot = ":/themes";
+    const char* const kDefaultTheme = "Light";
+
+    // Theme theo định dạng mới (XStyleManager): có data/variables.json và ít nhất
+    // một file css khác rỗng. Thư mục Themes cũ (css rỗng, Color.json) không đạt.
+    bool HasUsableTheme( const QString& root, const QString& name )
+    {
+        const QString dir = root + "/" + name;
+        if ( !QFileInfo::exists( dir + "/data/variables.json" ) )
+            return false;
+        QDir css( dir + "/css" );
+        if ( !css.exists() )
+            return false;
+        for ( const QFileInfo& fi : css.entryInfoList( { "*.css", "*.qss" }, QDir::Files ) )
+            if ( fi.size() > 0 )
+                return true;
+        return false;
+    }
+}
 
 void MakeTransparentWindow( QWidget* pWidget )
 {
@@ -24,10 +43,12 @@ void MakeTransparentWindow( QWidget* pWidget )
 
 void MakeShadow( QWidget* pWidget, QPoint offset, double radius, QColor color )
 {
+    if ( !pWidget )
+        return;
     QGraphicsDropShadowEffect* shadowEffect = new QGraphicsDropShadowEffect();
-    shadowEffect->setOffset( offset );  // Đặt độ dịch chuyển bóng
-    shadowEffect->setBlurRadius( radius ); // Đặt bán kính làm mờ
-    shadowEffect->setColor( color ); // Đặt màu bóng
+    shadowEffect->setOffset( offset );
+    shadowEffect->setBlurRadius( radius );
+    shadowEffect->setColor( color );
     pWidget->setGraphicsEffect( shadowEffect );
 }
 
@@ -37,68 +58,62 @@ NxTheme::NxTheme()
 
 NxTheme::~NxTheme()
 {
-    if ( m_pThemeWatcher )
+}
+
+void NxTheme::EnsureSettings()
+{
+    HxRegistrySetting settings;
+    QString root = settings.String( ThemeRootDir );
+    QString current = settings.String( ThemeSetting );
+    if ( current.isEmpty() )
+        current = kDefaultTheme;
+
+    // Thư mục ngoài chỉ được dùng khi thật sự có theme; nếu không, quay về resource.
+    // (Các bản cũ lưu đường dẫn tới thư mục Themes rỗng cạnh exe.)
+    bool useRoot = !root.isEmpty() && QDir( root ).exists();
+    if ( useRoot && !root.startsWith( ':' ) && !HasUsableTheme( root, current ) )
+        useRoot = false;
+    if ( !useRoot )
+        root = kEmbeddedRoot;
+
+    XStyleManager* pStyles = XStyleManager::instance();
+    pStyles->setThemeRoot( root );
+    QStringList available = pStyles->availableThemes();
+    if ( !available.contains( current ) )
+        current = available.contains( kDefaultTheme ) ? kDefaultTheme : ( available.isEmpty() ? QString() : available.first() );
+
+    if ( root != settings.String( ThemeRootDir ) || current != settings.String( ThemeSetting ) )
     {
-        delete m_pThemeWatcher;
-        m_pThemeWatcher = nullptr;
+        settings.Set( ThemeRootDir, root );
+        settings.Set( ThemeSetting, current );
+        settings.Save();
     }
 }
 
 QStringList NxTheme::GetThemes()
 {
-    Reset();
-    std::map<QString, QString> itemsMap
-    {
-        {"default","Default"}
-    };
+    EnsureSettings();
+    return XStyleManager::instance()->availableThemes();
+}
 
-    auto settings = HxRegistrySetting();
-    QString rootDir = settings.String( ThemeRootDir );
-    QFileInfoList dirs = QDir( rootDir ).entryInfoList( QDir::Dirs | QDir::NoDotAndDotDot );
-    for ( auto& it : dirs )
-    {
-        QString name = it.fileName();
-        QString key = name.toLower();
-        auto itFind = itemsMap.find( key );
-        if ( itFind != itemsMap.end() )
-            itemsMap[ key ] = name;
-    }
-
-    QStringList items;
-    for ( auto& [key, name] : itemsMap )
-        items.push_back( name );
-    return items;
+QString NxTheme::CurrentTheme() const
+{
+    return XStyleManager::instance()->currentTheme();
 }
 
 QString NxTheme::GetStyleSheets( const QStringList& names )
 {
-    Reset();
-    QStringList items;
-    if ( names.isEmpty() )
-    {
-        for ( auto& [name, css] : m_styleSheets )
-            items.push_back( css );
-    }
-    else
-    {
-        for ( auto& name : names )
-        {
-            items.push_back( m_styleSheets[ name ] );
-        }
-    }
-    return items.join( "\n" );
+    return XStyleManager::instance()->styleSheet( names );
 }
 
-QColor NxTheme::GetColor( const QString& profile )
+QColor NxTheme::GetColor( const QString& name )
 {
-    QString textColor = m_colorMap[ profile ];
-    return QColor( textColor );
+    return XStyleManager::instance()->color( name );
 }
 
 void NxTheme::SetTheme( const QString& name )
 {
-    Reset();
-    auto settings = HxRegistrySetting();
+    HxRegistrySetting settings;
     settings.Set( ThemeSetting, name );
     settings.Save();
     Refresh();
@@ -106,157 +121,32 @@ void NxTheme::SetTheme( const QString& name )
 
 void NxTheme::Refresh()
 {
-    Reset();
-    auto settings = HxRegistrySetting();
-    QString rootDir = settings.String( ThemeRootDir );
-    QString current = settings.String( ThemeSetting );
-    QString themeDir = rootDir + "/" + current;
+    EnsureSettings();
 
-    if ( !QDir( themeDir ).exists() )
-        return;
+    HxRegistrySetting settings;
+    const QString root = settings.String( ThemeRootDir );
+    const QString current = settings.String( ThemeSetting );
 
-    disconnect( m_pThemeWatcher, &QFileSystemWatcher::directoryChanged, this, &NxTheme::OnThemeChanged );
-    disconnect( m_pThemeWatcher, &QFileSystemWatcher::fileChanged, this, &NxTheme::OnThemeChanged );
-    m_themeDir = themeDir;
-    QStringList currentDirs = m_pThemeWatcher->files();
-    if ( !currentDirs.empty() )
-        m_pThemeWatcher->removePaths( currentDirs );
+    XStyleManager* pStyles = XStyleManager::instance();
+    pStyles->setThemeRoot( root );
+    pStyles->setAutoApply( true );
+    pStyles->setWatchEnabled( !root.startsWith( ':' ) );   // sửa nóng chỉ với thư mục ngoài
 
-    QStringList items = GetFilesAndFolders( m_themeDir );
-    m_pThemeWatcher->addPaths( items );
-    OnThemeChanged( m_themeDir );
-    connect( m_pThemeWatcher, &QFileSystemWatcher::directoryChanged, this, &NxTheme::OnThemeChanged );
-    connect( m_pThemeWatcher, &QFileSystemWatcher::fileChanged, this, &NxTheme::OnThemeChanged );
-
-}
-
-void NxTheme::Reset()
-{
-    if ( !m_pThemeWatcher )
-        m_pThemeWatcher = new QFileSystemWatcher();
-    auto settings = HxRegistrySetting();
-    QString rootDir = settings.String( ThemeRootDir );
-    if ( rootDir.isEmpty() || !QDir( rootDir ).exists() )
-    {
-        rootDir = qApp->applicationDirPath() + "/Themes";
-        settings.Set( ThemeRootDir, rootDir );
-        settings.Save();
-    }
-
-    QString current = settings.String( ThemeSetting );
     if ( current.isEmpty() )
     {
-        settings.Set( ThemeSetting, "Default" );
-        settings.Save();
-    }
-}
-
-void NxTheme::LoadStyleSheets()
-{
-    QFileInfoList fileLists = QDir( m_themeDir + "/css" ).entryInfoList( QDir::Files | QDir::NoDotAndDotDot );
-    QString imageDir = QString( "%1/images" ).arg( m_themeDir );
-
-    for ( auto& fileInfo : fileLists )
-    {
-        QString extend = fileInfo.suffix().toLower();
-        if ( extend != "css" )
-            continue;
-
-        QString baseName = fileInfo.baseName().toLower();
-        QFile file( fileInfo.absoluteFilePath() );
-        if ( !file.open( QIODevice::ReadOnly ) )
-            continue;
-
-        QString css = file.readAll();
-        file.close();
-        if ( css.isEmpty() )
-            continue;
-
-        m_styleSheets[ baseName ] = css.replace( "#image-dir", imageDir );
-    }
-}
-
-void NxTheme::LoadColors()
-{
-    QString fileName = QString( "%1/data/color.json" ).arg( m_themeDir );
-    QFile file( fileName );
-
-    if ( !file.open( QIODevice::ReadOnly ) )
+        qWarning() << "Theme: khong co theme nao trong" << root;
+        qApp->setStyleSheet( QString() );
         return;
-
-    QByteArray json = file.readAll();
-    file.close();
-
-    QJsonDocument doc = QJsonDocument::fromJson( json );
-    QJsonObject obj = doc.object();
-    for ( auto& key : obj.keys() )
-    {
-        m_colorMap[ key ] = obj.value( key ).toString();
     }
-}
-
-void NxTheme::LoadPalette()
-{
-    const std::map<QString, QPalette::ColorGroup> colorGroup = {
-        {"Active",QPalette::Active},
-        {"Disabled",QPalette::Disabled},
-        {"Inactive",QPalette::Inactive},
-        {"NColorGroups",QPalette::NColorGroups},
-        {"Current",QPalette::Current},
-        {"All",QPalette::All},
-        {"Normal",QPalette::Normal}
-    };
-
-    const std::map<QString, QPalette::ColorRole> colorRoles = {
-        {"WindowText",QPalette::WindowText},
-        {"Button",QPalette::Button},
-        {"Light",QPalette::Light},
-        {"Midlight",QPalette::Midlight},
-        {"Dark",QPalette::Dark},
-        {"Mid",QPalette::Mid},
-        {"Text",QPalette::Text},
-        {"BrightText",QPalette::BrightText},
-        {"ButtonText",QPalette::ButtonText},
-        {"Base",QPalette::Base},
-        {"Shadow",QPalette::Shadow},
-        {"Highlight",QPalette::Highlight},
-        {"HighlightedText",QPalette::HighlightedText},
-        {"Link",QPalette::Link},
-        {"LinkVisited",QPalette::LinkVisited},
-        {"AlternateBase",QPalette::AlternateBase},
-        {"NoRole",QPalette::NoRole},
-        {"ToolTipBase",QPalette::ToolTipBase},
-        {"ToolTipText",QPalette::ToolTipText},
-        {"PlaceholderText",QPalette::PlaceholderText},
-        {"Accent",QPalette::Accent},
-        {"NColorRoles",QPalette::NColorRoles}
-    };
-}
-
-void NxTheme::OnThemeChanged( const QString& )
-{
-    LoadStyleSheets();
-    LoadColors();
-    LoadPalette();
-    qApp->setStyleSheet( GetStyleSheets() );
-}
-
-bool NxTheme::eventFilter( QObject* watched, QEvent* event )
-{
-    NxEvent* NxEvent( nullptr );
-    NxEvent::Type type;
-    if ( !NxEvent::IsCustomEvent( event, NxEvent, type ) )
-        return QObject::eventFilter( watched, event );
-
-    switch ( type )
+    if ( !pStyles->loadTheme( current ) )
     {
-    case NxEvent::eSettingChanged:
-        m_settings.Load();
-        break;
-    default:
-        break;
+        qWarning() << "Theme: khong nap duoc" << current << "-" << pStyles->lastError();
+        return;
     }
-    return QObject::eventFilter( watched, event );
+    qInfo().noquote() << QString( "Theme: %1 loaded from %2 (%3 css files, %4 variables)" )
+                          .arg( current, root )
+                          .arg( pStyles->styleSheetNames().size() )
+                          .arg( pStyles->variables().size() );
 }
 
 NxTheme* Theme()

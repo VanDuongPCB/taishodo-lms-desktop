@@ -1,8 +1,8 @@
 #include "NxLoginDialog.h"
-#include "ui_nxlogindialog.h"
+#include "ui_NxLoginDialog.h"
 #include "NxProtector.h"
 
-NxLoginDialog::NxLoginDialog( QWidget* parent ) : QDialog( parent ), ui( new Ui::LoginDialog )
+NxLoginDialog::NxLoginDialog( QWidget* parent ) : XDialog( parent ), ui( new Ui::LoginDialog )
 {
     ui->setupUi( this );
     ui->cbxProfile->setFocus();

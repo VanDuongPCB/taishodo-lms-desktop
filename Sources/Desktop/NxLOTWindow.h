@@ -1,5 +1,6 @@
 #pragma once
 #include "QMainWindow"
+#include "XMainWindow.h"
 #include "QStandardItem"
 #include "QLineEdit"
 #include "NxLOT.h"
@@ -12,7 +13,7 @@ namespace Ui
     class LotWindow;
 }
 
-class NxLOTWindow : public QMainWindow
+class NxLOTWindow : public XMainWindow
 {
     Q_OBJECT
 

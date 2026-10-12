@@ -1,5 +1,6 @@
 #pragma once
 #include "QMainWindow"
+#include "XMainWindow.h"
 #include "QLabel"
 #include "QLineEdit"
 #include "QStandardItem"
@@ -12,7 +13,7 @@ namespace Ui
     class ModelWindow;
 }
 
-class NxModelWindow : public QMainWindow
+class NxModelWindow : public XMainWindow
 {
     Q_OBJECT
 

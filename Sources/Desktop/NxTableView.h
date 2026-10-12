@@ -1,8 +1,9 @@
 #pragma once
 #include "QTableView"
+#include "XTableView.h"
 #include "NxDataTable.h"
 
-class NxTableView : public QTableView
+class NxTableView : public XTableView
 {
 public:
     NxTableView( QWidget* parent = nullptr );

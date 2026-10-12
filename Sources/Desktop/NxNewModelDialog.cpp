@@ -1,11 +1,11 @@
 #include "NxNewModelDialog.h"
-#include "ui_nxnewmodeldialog.h"
+#include "ui_NxNewModelDialog.h"
 #include "NxModel.h"
 #include "NxMessage.h"
 #include "NxIVProgram.h"
 
 NxNewModelDialog::NxNewModelDialog( NxModelPtrMap models, NxModelPtrMap modelToSaves, QWidget* parent ) :
-    QDialog( parent ),
+    XDialog( parent ),
     ui( new Ui::NewModelDialog )
 {
     ui->setupUi( this );

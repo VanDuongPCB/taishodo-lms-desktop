@@ -1,9 +1,9 @@
 #include "NxRegisterDialog.h"
-#include "ui_nxregisterdialog.h"
+#include "ui_NxRegisterDialog.h"
 #include "NxLicense.h"
 #include "NxMessage.h"
 
-NxRegisterDialog::NxRegisterDialog( QWidget* parent ) : QDialog( parent ), ui( new Ui::RegisterDialog )
+NxRegisterDialog::NxRegisterDialog( QWidget* parent ) : XDialog( parent ), ui( new Ui::RegisterDialog )
 {
     ui->setupUi( this );
     ui->txtID->setText( Licensing()->ID() );
