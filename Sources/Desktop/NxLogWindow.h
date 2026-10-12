@@ -1,5 +1,6 @@
 #pragma once
 #include "QMainWindow"
+#include "XMainWindow.h"
 #include "QLabel"
 #include "QDateEdit"
 #include "QLineEdit"
@@ -10,7 +11,7 @@ namespace Ui
     class LogWindow;
 }
 
-class NxLogWindow : public QMainWindow
+class NxLogWindow : public XMainWindow
 {
     Q_OBJECT
 

@@ -15,7 +15,7 @@
   </property>
   <layout class="QGridLayout" name="gridLayout_2">
    <item row="8" column="1">
-    <widget class="QLabel" name="label_7">
+    <widget class="XLabel" name="label_7">
      <property name="text">
       <string>Stopper</string>
      </property>
@@ -25,7 +25,7 @@
     </widget>
    </item>
    <item row="2" column="1">
-    <widget class="QLabel" name="label_4">
+    <widget class="XLabel" name="label_4">
      <property name="text">
       <string>LOT</string>
      </property>
@@ -35,7 +35,7 @@
     </widget>
    </item>
    <item row="5" column="1">
-    <widget class="QLabel" name="label_8">
+    <widget class="XLabel" name="label_8">
      <property name="text">
       <string>Dữ liệu in</string>
      </property>
@@ -45,21 +45,21 @@
     </widget>
    </item>
    <item row="5" column="3">
-    <widget class="QPushButton" name="btnMigratePrintData">
+    <widget class="XPushButton" name="btnMigratePrintData">
      <property name="text">
       <string>Migrate</string>
      </property>
     </widget>
    </item>
    <item row="3" column="3">
-    <widget class="QPushButton" name="btnMigrateModels">
+    <widget class="XPushButton" name="btnMigrateModels">
      <property name="text">
       <string>Migrate</string>
      </property>
     </widget>
    </item>
    <item row="1" column="1">
-    <widget class="QLabel" name="label_2">
+    <widget class="XLabel" name="label_2">
      <property name="minimumSize">
       <size>
        <width>100</width>
@@ -75,10 +75,10 @@
     </widget>
    </item>
    <item row="3" column="2">
-    <widget class="QLineEdit" name="txtModelDir"/>
+    <widget class="XLineEdit" name="txtModelDir"/>
    </item>
    <item row="4" column="1">
-    <widget class="QLabel" name="label_6">
+    <widget class="XLabel" name="label_6">
      <property name="text">
       <string>Thiết kế</string>
      </property>
@@ -88,27 +88,27 @@
     </widget>
    </item>
    <item row="1" column="2">
-    <widget class="QLineEdit" name="txtRootDir">
+    <widget class="XLineEdit" name="txtRootDir">
      <property name="text">
       <string>D:\LMS</string>
      </property>
     </widget>
    </item>
    <item row="1" column="3">
-    <widget class="QPushButton" name="btnBrowseDataDir">
+    <widget class="XPushButton" name="btnBrowseDataDir">
      <property name="text">
       <string>Chọn</string>
      </property>
     </widget>
    </item>
    <item row="6" column="2">
-    <widget class="QLineEdit" name="txtRePrintLogDir"/>
+    <widget class="XLineEdit" name="txtRePrintLogDir"/>
    </item>
    <item row="4" column="2">
-    <widget class="QLineEdit" name="txtDesinDir"/>
+    <widget class="XLineEdit" name="txtDesinDir"/>
    </item>
    <item row="7" column="1">
-    <widget class="QLabel" name="label">
+    <widget class="XLabel" name="label">
      <property name="text">
       <string>Dữ liệu barcode</string>
      </property>
@@ -118,26 +118,26 @@
     </widget>
    </item>
    <item row="2" column="2">
-    <widget class="QLineEdit" name="txtLOTDir"/>
+    <widget class="XLineEdit" name="txtLOTDir"/>
    </item>
    <item row="2" column="3">
-    <widget class="QPushButton" name="btnMigrateLOTs">
+    <widget class="XPushButton" name="btnMigrateLOTs">
      <property name="text">
       <string>Migrate</string>
      </property>
     </widget>
    </item>
    <item row="7" column="2">
-    <widget class="QLineEdit" name="txtBarcodeDir"/>
+    <widget class="XLineEdit" name="txtBarcodeDir"/>
    </item>
    <item row="5" column="2">
-    <widget class="QLineEdit" name="txtPrintLogDir"/>
+    <widget class="XLineEdit" name="txtPrintLogDir"/>
    </item>
    <item row="8" column="2">
-    <widget class="QLineEdit" name="txtStopperFile"/>
+    <widget class="XLineEdit" name="txtStopperFile"/>
    </item>
    <item row="6" column="1">
-    <widget class="QLabel" name="label_9">
+    <widget class="XLabel" name="label_9">
      <property name="text">
       <string>Dữ liệu in lại</string>
      </property>
@@ -147,28 +147,28 @@
     </widget>
    </item>
    <item row="8" column="3">
-    <widget class="QPushButton" name="btnMigrateStoppers">
+    <widget class="XPushButton" name="btnMigrateStoppers">
      <property name="text">
       <string>Migrate</string>
      </property>
     </widget>
    </item>
    <item row="6" column="3">
-    <widget class="QPushButton" name="btnMigrateRePrintData">
+    <widget class="XPushButton" name="btnMigrateRePrintData">
      <property name="text">
       <string>Migrate</string>
      </property>
     </widget>
    </item>
    <item row="4" column="3">
-    <widget class="QPushButton" name="btnMigrateDesigns">
+    <widget class="XPushButton" name="btnMigrateDesigns">
      <property name="text">
       <string>Migrate</string>
      </property>
     </widget>
    </item>
    <item row="3" column="1">
-    <widget class="QLabel" name="label_5">
+    <widget class="XLabel" name="label_5">
      <property name="text">
       <string>Model</string>
      </property>
@@ -178,14 +178,14 @@
     </widget>
    </item>
    <item row="7" column="3">
-    <widget class="QPushButton" name="btnMigrateBarcode">
+    <widget class="XPushButton" name="btnMigrateBarcode">
      <property name="text">
       <string>Migrate</string>
      </property>
     </widget>
    </item>
    <item row="0" column="1">
-    <widget class="QLabel" name="label_3">
+    <widget class="XLabel" name="label_3">
      <property name="text">
       <string>Cơ sở dữ liệu</string>
      </property>
@@ -195,10 +195,27 @@
     </widget>
    </item>
    <item row="0" column="2">
-    <widget class="QLineEdit" name="txtDBFile"/>
+    <widget class="XLineEdit" name="txtDBFile"/>
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>XLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XPushButton</class>
+   <extends>QPushButton</extends>
+   <header>XPushButton.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

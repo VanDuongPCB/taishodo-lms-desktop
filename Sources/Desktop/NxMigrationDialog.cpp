@@ -1,12 +1,12 @@
 ﻿#include "NxMigrationDialog.h"
-#include "ui_nxmigrationdialog.h"
+#include "ui_NxMigrationDialog.h"
 
 #include "QFileDialog"
 
 #include "NxMigration.h"
 
 
-NxMigrationDialog::NxMigrationDialog( QWidget* parent ) : QDialog( parent ), ui( new Ui::MigrationDialog )
+NxMigrationDialog::NxMigrationDialog( QWidget* parent ) : XDialog( parent ), ui( new Ui::MigrationDialog )
 {
     ui->setupUi( this );
 

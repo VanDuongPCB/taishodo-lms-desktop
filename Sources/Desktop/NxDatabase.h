@@ -1,5 +1,5 @@
 #pragma once
-#include "QSQlDatabase"
+#include "QSqlDatabase"
 #include "QSqlQuery"
 #include "QSqlError"
 

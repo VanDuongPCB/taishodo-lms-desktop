@@ -1,5 +1,7 @@
 #include "NxMainWindow.h"
-#include "ui_nxmainwindow.h"
+#include "NxDebugFlags.h"
+#include "ui_NxMainWindow.h"
+#include "XTabBar.h"
 
 #include "QSignalBlocker"
 #include "QCloseEvent"
@@ -27,9 +29,41 @@
 
 #include "NxTheme.h"
 
-NxMainWindow::NxMainWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::MainWindow )
+namespace TabIndex
+{
+    constexpr int Mark = 0;
+    constexpr int Transfer = 1;
+    constexpr int Plans = 2;
+    constexpr int Model = 3;
+    constexpr int Design = 4;
+    constexpr int IVProgram = 5;
+    constexpr int Settings = 6;
+    constexpr int Control = 7;
+    constexpr int Data = 8;
+}
+
+NxMainWindow::NxMainWindow( QWidget* parent ) : XMainWindow( parent ), ui( new Ui::MainWindow )
 {
     ui->setupUi( this );
+
+    // Tab chính: icon nằm trên chữ (XTabWidget, xem XTabBar::setToolButtonStyle).
+    ui->tabWidget->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
+    ui->tabWidget->setIconTextSpacing( 4 );
+    ui->tabWidget->setRotateVerticalText( false );  // tab dọc (West/East): chữ vẫn nằm ngang dưới icon, không xoay 90°
+    ui->tabWidget->setUsesScrollButtons( false );   // cửa sổ hẹp: tab tự co và rút gọn chữ, không hiện nút cuộn
+
+    // Nút Đăng nhập/Đăng xuất thay cho tab đầu tiên: nằm trong hàng tab, góc trái,
+    // cao bằng tab; dãy tab tự dịch sang phải đúng bằng bề rộng nút.
+    m_pLoginButton = new XToolButton( ui->tabWidget );
+    m_pLoginButton->setObjectName( "btnLogin" );
+    m_pLoginButton->setIcon( QIcon( ":/protect-01.png" ) );
+    m_pLoginButton->setIconSize( ui->tabWidget->iconSize() );
+    m_pLoginButton->setText( tr( "Đăng nhập" ) );
+    m_pLoginButton->setToolButtonStyle( Qt::ToolButtonTextUnderIcon );
+    m_pLoginButton->setAutoRaise( true );
+    m_pLoginButton->setCursor( Qt::PointingHandCursor );
+    ui->tabWidget->setTabBarCornerWidget( m_pLoginButton, Qt::TopLeftCorner );   // cao bằng tab, thẳng hàng với tab
+    connect( m_pLoginButton, &QToolButton::clicked, this, &NxMainWindow::OnLoginOrLogout );
 
     m_pMarkWindow = new NxMarkWindow();
     m_pTransferWindow = new NxTransferWindow();
@@ -61,11 +95,10 @@ NxMainWindow::NxMainWindow( QWidget* parent ) : QMainWindow( parent ), ui( new U
     Marker()->moveToThread( QCoreApplication::instance()->thread() );
     Marker()->Init();
 
-#ifndef DEBUG_MODE
-    OnLockUI();
-#endif
+    if ( !IsLoginSkipped() )
+        OnLockUI();
 
-    Theme()->SetTheme( "Default" );
+    Theme()->Refresh();   // nạp theme đã lưu trong registry (mặc định "Light", từ resource :/themes)
     setWindowState( Qt::WindowMaximized );
 }
 
@@ -103,7 +136,7 @@ bool NxMainWindow::eventFilter( QObject* watched, QEvent* event )
     NxEvent* NxEvent( nullptr );
     NxEvent::Type type;
     if ( !NxEvent::IsCustomEvent( event, NxEvent, type ) )
-        return QMainWindow::eventFilter( watched, event );
+        return XMainWindow::eventFilter( watched, event );
 
     switch ( type )
     {
@@ -125,7 +158,7 @@ bool NxMainWindow::eventFilter( QObject* watched, QEvent* event )
         break;
     }
 
-    return QMainWindow::eventFilter( watched, event );
+    return XMainWindow::eventFilter( watched, event );
 }
 
 void NxMainWindow::OnLoginOrLogout()
@@ -145,47 +178,50 @@ void NxMainWindow::OnLoginOrLogout()
 void NxMainWindow::OnLockUI()
 {
     OnUnLockUIForAdmin();
-    ui->tabWidget->setTabText( 0, tr( "Đăng nhập" ) );
-    ui->tabWidget->setTabVisible( 3, false );
-    ui->tabWidget->setTabVisible( 4, false );
-    ui->tabWidget->setTabVisible( 5, false );
-    //ui->tabWidget->setTabVisible( 6, false );
-    ui->tabWidget->setTabVisible( 7, false );
-    ui->tabWidget->setTabVisible( 8, false );
-    //ui->tabWidget->setTabVisible( 9, false );
+    m_pLoginButton->setText( tr( "Đăng nhập" ) );
+    SetTabVisible( ui->tabPlans, false );
+    SetTabVisible( ui->tabModel, false );
+    SetTabVisible( ui->tabDesign, false );
+    SetTabVisible( ui->tabSetting, false );
+    SetTabVisible( ui->tabControl, false );
 }
 
 void NxMainWindow::OnUnLockUIForLeader()
 {
     OnUnLockUIForAdmin();
-    ui->tabWidget->setTabVisible( 4, false );
-    ui->tabWidget->setTabVisible( 5, false );
-    ui->tabWidget->setTabVisible( 7, false );
-    ui->tabWidget->setTabVisible( 8, false );
+    SetTabVisible( ui->tabModel, false );
+    SetTabVisible( ui->tabDesign, false );
+    SetTabVisible( ui->tabSetting, false );
+    SetTabVisible( ui->tabControl, false );
 }
 
 void NxMainWindow::OnUnLockUIForSuper()
 {
     OnUnLockUIForAdmin();
-    ui->tabWidget->setTabVisible( 7, false );
-    ui->tabWidget->setTabVisible( 8, false );
+    SetTabVisible( ui->tabSetting, false );
+    SetTabVisible( ui->tabControl, false );
 }
 
 void NxMainWindow::OnUnLockUIForAdmin()
 {
-    ui->tabWidget->setTabText( 0, tr( "Đăng xuất" ) );
+    m_pLoginButton->setText( tr( "Đăng xuất" ) );
     for ( int i = 0; i < ui->tabWidget->count(); i++ )
         ui->tabWidget->setTabVisible( i, true );
 }
 
+void NxMainWindow::SetTabVisible( QWidget* pPage, bool bVisible )
+{
+    int index = ui->tabWidget->indexOf( pPage );
+    if ( index >= 0 )
+        ui->tabWidget->setTabVisible( index, bVisible );
+}
+
 void NxMainWindow::OnTabChanged( int index )
 {
-    if ( !ui->tabWidget->currentWidget()->isEnabled() || index == 0 )
+    if ( !ui->tabWidget->currentWidget()->isEnabled() )
     {
         QSignalBlocker blocker( ui->tabWidget );
         ui->tabWidget->setCurrentIndex( m_currentTabIndex );
-        if ( index == 0 )
-            OnLoginOrLogout();
         return;
     }
 

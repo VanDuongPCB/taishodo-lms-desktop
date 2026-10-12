@@ -1,6 +1,6 @@
 #pragma once
 
-//#define DEBUG_MODE
+// DEBUG_MODE đã bỏ: dùng <thư mục exe>/debug/lms_debug.json (xem NxDebugFlags.h / XDebug).
 
 
 

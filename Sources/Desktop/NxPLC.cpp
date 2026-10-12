@@ -1,4 +1,5 @@
 #include "NxPLC.h"
+#include "NxDebugFlags.h"
 #include "QString"
 #include "QApplication"
 
@@ -16,9 +17,8 @@ NxPLC::NxPLC()
 
 bool NxPLC::SetEnable( bool en )
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsPlcSimulated() )
+        return true;
 
     QString val = en ? "1" : "0";
     QString cmd = "WR " +  m_settings.String( RegSoftwareReady ) + " " + val + "\r";
@@ -40,9 +40,8 @@ bool NxPLC::SetEnable( bool en )
 
 bool NxPLC::SetMarkResult( bool status )
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsPlcSimulated() )
+        return true;
 
     QString val = status == true ? "1 0" : "0 1";
     QString cmd = "WRS " + m_settings.String( RegMarkingResult ) + " 2 " + val + "\r";
@@ -64,9 +63,8 @@ bool NxPLC::SetMarkResult( bool status )
 
 bool NxPLC::SetCvWidth( double width )
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsPlcSimulated() )
+        return true;
 
     int val = width * 100;
     QString cmd = "WR " + m_settings.String( RegCvWidth ) + " " + QString::number( val ) + "\r";
@@ -88,9 +86,8 @@ bool NxPLC::SetCvWidth( double width )
 
 bool NxPLC::SetTransferMode( bool on )
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsPlcSimulated() )
+        return true;
 
     QString cmd = "WR " + m_settings.String( RegPassMode ) + " " + QString::number( on ) + "\r";
     QString fb;
@@ -111,9 +108,8 @@ bool NxPLC::SetTransferMode( bool on )
 
 bool NxPLC::SetStopper( int stopper )
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsPlcSimulated() )
+        return true;
 
     QString val = stopper == 1 ? "1 0" : "0 1";
     QString cmd = "WRS " + m_settings.String( RegStopper ) + " 2 " + val + "\r";
@@ -135,9 +131,8 @@ bool NxPLC::SetStopper( int stopper )
 
 bool NxPLC::IsHasTrigger()
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsPlcSimulated() )
+        return true;
 
     QString cmd = "RD " + m_settings.String( RegLaserTrigger ) + "\r";
     QString fb;
@@ -158,9 +153,8 @@ bool NxPLC::IsHasTrigger()
 
 bool NxPLC::ConfirmTrigger()
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsPlcSimulated() )
+        return true;
 
     QString cmd = "WR " + m_settings.String( RegLaserTriggerConfirm ) + " 1\r\n";
     QString fb;
@@ -181,9 +175,8 @@ bool NxPLC::ConfirmTrigger()
 
 bool NxPLC::SetCompleteBit()
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsPlcSimulated() )
+        return true;
 
     QString cmd = "WR MR30115 1\r\n";
     QString fb;

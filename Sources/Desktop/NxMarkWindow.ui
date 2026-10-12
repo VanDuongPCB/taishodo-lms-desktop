@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="XWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <property name="leftMargin">
      <number>9</number>
@@ -31,7 +31,7 @@
      <number>9</number>
     </property>
     <item row="2" column="0" colspan="2">
-     <widget class="QLabel" name="label_14">
+     <widget class="XLabel" name="label_14">
       <property name="font">
        <font>
         <bold>true</bold>
@@ -59,7 +59,7 @@
      </widget>
     </item>
     <item row="1" column="0">
-     <widget class="QWidget" name="widget_2" native="true">
+     <widget class="XWidget" name="widget_2" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -68,7 +68,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_4">
        <item row="7" column="0">
-        <widget class="QLabel" name="label_6">
+        <widget class="XLabel" name="label_6">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -84,7 +84,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLabel" name="lblCounterStart">
+        <widget class="XLabel" name="lblCounterStart">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -97,7 +97,7 @@
         </widget>
        </item>
        <item row="6" column="0">
-        <widget class="QLabel" name="label_3">
+        <widget class="XLabel" name="label_3">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -113,7 +113,7 @@
         </widget>
        </item>
        <item row="8" column="1">
-        <widget class="QLabel" name="lblIVProgram">
+        <widget class="XLabel" name="lblIVProgram">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -129,7 +129,7 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLabel" name="lblQuantity">
+        <widget class="XLabel" name="lblQuantity">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -142,7 +142,7 @@
         </widget>
        </item>
        <item row="7" column="1">
-        <widget class="QLabel" name="lblDesign">
+        <widget class="XLabel" name="lblDesign">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -158,7 +158,7 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label_11">
+        <widget class="XLabel" name="label_11">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -174,7 +174,7 @@
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QLabel" name="lblSerialEnd">
+        <widget class="XLabel" name="lblSerialEnd">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -187,7 +187,7 @@
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QLabel" name="lblModelName">
+        <widget class="XLabel" name="lblModelName">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -200,7 +200,7 @@
         </widget>
        </item>
        <item row="6" column="1">
-        <widget class="QLabel" name="lblModelCode">
+        <widget class="XLabel" name="lblModelCode">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -213,7 +213,7 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QLabel" name="lblSerialStart">
+        <widget class="XLabel" name="lblSerialStart">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -226,7 +226,7 @@
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QLabel" name="label_5">
+        <widget class="XLabel" name="label_5">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -242,7 +242,7 @@
         </widget>
        </item>
        <item row="5" column="0">
-        <widget class="QLabel" name="label_2">
+        <widget class="XLabel" name="label_2">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -258,7 +258,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_13">
+        <widget class="XLabel" name="label_13">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -274,7 +274,7 @@
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="XLabel" name="label">
          <property name="minimumSize">
           <size>
            <width>150</width>
@@ -296,7 +296,7 @@
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_4">
+        <widget class="XLabel" name="label_4">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -312,7 +312,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLabel" name="lblLotName">
+        <widget class="XLabel" name="lblLotName">
          <property name="minimumSize">
           <size>
            <width>300</width>
@@ -331,7 +331,7 @@
         </widget>
        </item>
        <item row="8" column="0">
-        <widget class="QLabel" name="label_7">
+        <widget class="XLabel" name="label_7">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -347,7 +347,7 @@
         </widget>
        </item>
        <item row="9" column="0">
-        <widget class="QLabel" name="label_10">
+        <widget class="XLabel" name="label_10">
          <property name="minimumSize">
           <size>
            <width>150</width>
@@ -369,7 +369,7 @@
         </widget>
        </item>
        <item row="9" column="1">
-        <widget class="QProgressBar" name="pgbProgress">
+        <widget class="XProgressBar" name="pgbProgress">
          <property name="font">
           <font>
            <pointsize>12</pointsize>
@@ -394,7 +394,7 @@
      </widget>
     </item>
     <item row="1" column="1">
-     <widget class="QWidget" name="widget" native="true">
+     <widget class="XWidget" name="widget" native="true">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
         <horstretch>0</horstretch>
@@ -409,7 +409,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_3">
        <item row="1" column="0" colspan="2">
-        <widget class="QLabel" name="lblBarcode">
+        <widget class="XLabel" name="lblBarcode">
          <property name="font">
           <font>
            <pointsize>-1</pointsize>
@@ -426,7 +426,7 @@ font-size:32px;</string>
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QLabel" name="lblFormat">
+        <widget class="XLabel" name="lblFormat">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -442,7 +442,7 @@ font-size:32px;</string>
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label_8">
+        <widget class="XLabel" name="label_8">
          <property name="text">
           <string>Mã code</string>
          </property>
@@ -476,7 +476,7 @@ font-size:32px;</string>
         </widget>
        </item>
        <item row="2" column="0" colspan="2">
-        <widget class="QLabel" name="label_9">
+        <widget class="XLabel" name="label_9">
          <property name="text">
           <string>Dữ liệu các block</string>
          </property>
@@ -486,7 +486,7 @@ font-size:32px;</string>
      </widget>
     </item>
     <item row="4" column="0">
-     <widget class="QLabel" name="label_12">
+     <widget class="XLabel" name="label_12">
       <property name="font">
        <font>
         <bold>true</bold>
@@ -498,7 +498,7 @@ font-size:32px;</string>
      </widget>
     </item>
     <item row="3" column="0" colspan="2">
-     <widget class="QLabel" name="lblStatus">
+     <widget class="XLabel" name="lblStatus">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -520,7 +520,7 @@ font-size:32px;</string>
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QLabel" name="label_16">
+     <widget class="XLabel" name="label_16">
       <property name="font">
        <font>
         <bold>true</bold>
@@ -532,7 +532,7 @@ font-size:32px;</string>
      </widget>
     </item>
     <item row="0" column="0">
-     <widget class="QLabel" name="label_15">
+     <widget class="XLabel" name="label_15">
       <property name="font">
        <font>
         <bold>true</bold>
@@ -545,7 +545,7 @@ font-size:32px;</string>
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="XToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -637,6 +637,28 @@ font-size:32px;</string>
    <class>NxTableView</class>
    <extends>QTableView</extends>
    <header>NxTableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XWidget</class>
+   <extends>QWidget</extends>
+   <header>XWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>XToolBar</class>
+   <extends>QToolBar</extends>
+   <header>XToolBar.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>XProgressBar</class>
+   <extends>QProgressBar</extends>
+   <header>XProgressBar.h</header>
   </customwidget>
  </customwidgets>
  <resources>

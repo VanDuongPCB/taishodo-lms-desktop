@@ -1,4 +1,5 @@
 #include "NxLaser.h"
+#include "NxDebugFlags.h"
 
 #include "QApplication"
 #include "QSerialPort"
@@ -63,9 +64,8 @@ NxLaser::NxLaser() : QObject( nullptr )
 
 bool NxLaser::SetProgram( const QString& name )
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsLaserSimulated() )
+        return true;
 
     QString cmd = "GA," + name + "\r";
     QString fb = SendData( cmd, 3000 );
@@ -81,9 +81,8 @@ bool NxLaser::SetProgram( const QString& name )
 
 bool NxLaser::SetupBlockData( const QString& program, std::map<int, QString> dataMap )
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsLaserSimulated() )
+        return true;
 
     QStringList items;
     items.push_back( "C2" );
@@ -123,9 +122,8 @@ bool NxLaser::SetupBlockData( const QString& program, std::map<int, QString> dat
 
 bool NxLaser::SetupPosition( const QString& program, NxPosition pos, NxDesignPtr pDesign, NxStopperPtr pStopper )
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsLaserSimulated() )
+        return true;
 
     if ( pos.angle % 90 != 0 )
     {
@@ -278,9 +276,8 @@ bool NxLaser::SetupPosition( const QString& program, NxPosition pos, NxDesignPtr
 
 bool NxLaser::Burn()
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsLaserSimulated() )
+        return true;
 
     try
     {

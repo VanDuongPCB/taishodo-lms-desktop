@@ -1,4 +1,5 @@
 #include "QCoreApplication"
+#include "NxDebugFlags.h"
 #include "QTime"
 #include "QDir"
 #include "QFile"
@@ -19,9 +20,8 @@ NxBarcode::NxBarcode() : QObject( nullptr )
 
 bool NxBarcode::IsHasData()
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsBarcodeSimulated() )
+        return true;
 
     QString cmd = "RD " +m_settings.String( RegBarcodeHasData ) + "\r";
     QString fb;
@@ -42,9 +42,8 @@ bool NxBarcode::IsHasData()
 
 bool NxBarcode::Clear()
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsBarcodeSimulated() )
+        return true;
 
     QString cmd = "WR " + m_settings.String( RegLaserTriggerConfirm ) + " 1\r";
     QString fb;
@@ -65,9 +64,8 @@ bool NxBarcode::Clear()
 
 QString NxBarcode::Read()
 {
-#ifdef DEBUG_MODE
-    return "";
-#endif
+    if ( IsBarcodeSimulated() )
+        return "";
 
     QString cmd = "RDS " + m_settings.String( RegBarcodeData ) + " 40\r";
     QString fb;
@@ -101,9 +99,8 @@ QString NxBarcode::Read()
 
 bool NxBarcode::SendFeedback( bool status )
 {
-#ifdef DEBUG_MODE
-    return true;
-#endif
+    if ( IsBarcodeSimulated() )
+        return true;
 
     QString val1 = status == 1 ? "1" : "0";
     QString val2 = status == 1 ? "0" : "1";

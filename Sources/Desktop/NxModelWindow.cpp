@@ -1,5 +1,5 @@
 #include "NxModelWindow.h"
-#include "ui_nxmodelwindow.h"
+#include "ui_NxModelWindow.h"
 #include "QSpacerItem"
 #include "QFileDialog"
 
@@ -19,7 +19,7 @@ namespace
     int s_maxPointSupported = 60;
 }
 
-NxModelWindow::NxModelWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::ModelWindow )
+NxModelWindow::NxModelWindow( QWidget* parent ) : XMainWindow( parent ), ui( new Ui::ModelWindow )
 {
     ui->setupUi( this );
 

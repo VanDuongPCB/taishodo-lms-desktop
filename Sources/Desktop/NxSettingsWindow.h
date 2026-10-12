@@ -1,5 +1,6 @@
 #pragma once
 #include "QMainWindow"
+#include "XMainWindow.h"
 #include "NxSettings.h"
 #include "NxProfile.h"
 #include "NxStopper.h"
@@ -9,7 +10,7 @@ namespace Ui
     class SettingsWindow;
 }
 
-class NxSettingsWindow : public QMainWindow
+class NxSettingsWindow : public XMainWindow
 {
     Q_OBJECT
 

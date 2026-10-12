@@ -1,12 +1,13 @@
 #pragma once
 #include "QDialog"
 
+#include "XDialog.h"
 namespace Ui
 {
     class AddParamsDialog;
 }
 
-class NxAddParamsDialog : public QDialog
+class NxAddParamsDialog : public XDialog
 {
     Q_OBJECT
 

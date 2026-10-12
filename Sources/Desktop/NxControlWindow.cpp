@@ -10,7 +10,7 @@
 #include "NxPLC.h"
 #include "NxBarcode.h"
 
-NxControlWindow::NxControlWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::ControlWindow )
+NxControlWindow::NxControlWindow( QWidget* parent ) : XMainWindow( parent ), ui( new Ui::ControlWindow )
 {
     ui->setupUi( this );
     on_btnBlockClear_clicked();

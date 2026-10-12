@@ -1,6 +1,7 @@
 #include "NxMessage.h"
 #include "QMessageBox"
 #include "QAbstractButton"
+#include "XMessageBox.h"
 #include "NxTheme.h"
 
 namespace
@@ -47,13 +48,13 @@ namespace
             if ( pButton )
                 pButton->setObjectName( "HxMsgButton" + id.second );
         }
-        msgBox.setStyleSheet( Theme()->GetStyleSheets( { "messagebox" } ) );
+        msgBox.setStyleSheet( Theme()->GetStyleSheets( { "XMessageBox" } ) );   // css/XMessageBox.css của theme
     }
 }
 
 int HxMsgShow( const QString& content )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( QObject::tr( "Thông báo" ) );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::NoIcon );
@@ -65,7 +66,7 @@ int HxMsgShow( const QString& content )
 
 int HxMsgShow( const QString& content, const QString& title )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( title );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::NoIcon );
@@ -77,7 +78,7 @@ int HxMsgShow( const QString& content, const QString& title )
 
 int HxMsgShow( const QString& content, const QString& title, HxMsgIcon icon )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( title );
     msgBox.setText( content );
     msgBox.setIcon( icon );
@@ -89,7 +90,7 @@ int HxMsgShow( const QString& content, const QString& title, HxMsgIcon icon )
 
 int HxMsgInfo( const QString& content )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( QObject::tr( "Thông tin" ) );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::Information );
@@ -100,7 +101,7 @@ int HxMsgInfo( const QString& content )
 }
 int HxMsgInfo( const QString& content, const QString& title )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( title );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::Information );
@@ -112,7 +113,7 @@ int HxMsgInfo( const QString& content, const QString& title )
 
 int HxMsgQuestion( const QString& content )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( QObject::tr( "Xác nhận" ) );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::Question );
@@ -123,7 +124,7 @@ int HxMsgQuestion( const QString& content )
 }
 int HxMsgQuestion( const QString& content, const QString& title )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( title );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::Question );
@@ -135,7 +136,7 @@ int HxMsgQuestion( const QString& content, const QString& title )
 
 int HxMsgQuestion( const QString& content, const QString& title, HxMsgButtons buttons )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( title );
     msgBox.setText( content );
     msgBox.setStandardButtons( buttons );
@@ -146,7 +147,7 @@ int HxMsgQuestion( const QString& content, const QString& title, HxMsgButtons bu
 
 int HxMsgWarning( const QString& content, bool bIsHighlight )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( QObject::tr( "Cảnh báo" ) );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::Warning );
@@ -157,7 +158,7 @@ int HxMsgWarning( const QString& content, bool bIsHighlight )
 
 int HxMsgWarning( const QString& content, const QString& title, bool bIsHighlight )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( title );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::Warning );
@@ -168,7 +169,7 @@ int HxMsgWarning( const QString& content, const QString& title, bool bIsHighligh
 
 int HxMsgError( const QString& content, bool bIsHighlight )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( QObject::tr( "Lỗi" ) );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::Critical );
@@ -179,7 +180,7 @@ int HxMsgError( const QString& content, bool bIsHighlight )
 
 int HxMsgError( const QString& content, const QString& title, bool bIsHighlight )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( title );
     msgBox.setText( content );
     msgBox.setIcon( HxMsgIcon::Critical );
@@ -190,7 +191,7 @@ int HxMsgError( const QString& content, const QString& title, bool bIsHighlight 
 
 int HxMsgError( const QString& content, const QString& details, const QString& title, bool bIsHighlight )
 {
-    QMessageBox msgBox;
+    XMessageBox msgBox;
     msgBox.setWindowTitle( title );
     msgBox.setText( content );
     msgBox.setDetailedText( details );

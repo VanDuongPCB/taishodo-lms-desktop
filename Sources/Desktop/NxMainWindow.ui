@@ -16,13 +16,13 @@
   <property name="styleSheet">
    <string notr="true"/>
   </property>
-  <widget class="QWidget" name="centralWidget">
+  <widget class="XWidget" name="centralWidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <property name="leftMargin">
      <number>0</number>
     </property>
     <property name="topMargin">
-     <number>0</number>
+     <number>4</number>
     </property>
     <property name="rightMargin">
      <number>0</number>
@@ -31,9 +31,9 @@
      <number>0</number>
     </property>
     <item row="0" column="0">
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="XTabWidget" name="tabWidget">
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <property name="iconSize">
        <size>
@@ -41,16 +41,7 @@
         <height>32</height>
        </size>
       </property>
-      <widget class="QWidget" name="tabLogin">
-       <attribute name="icon">
-        <iconset resource="../Assets/Icons/icons.qrc">
-         <normaloff>:/protect-01.png</normaloff>:/protect-01.png</iconset>
-       </attribute>
-       <attribute name="title">
-        <string>Đăng nhập</string>
-       </attribute>
-      </widget>
-      <widget class="QWidget" name="tabMark">
+      <widget class="XWidget" name="tabMark">
        <attribute name="icon">
         <iconset resource="../Assets/Icons/icons.qrc">
          <normaloff>:/laser_beam_48px.png</normaloff>:/laser_beam_48px.png</iconset>
@@ -73,7 +64,7 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabTransfer">
+      <widget class="XWidget" name="tabTransfer">
        <attribute name="icon">
         <iconset resource="../Assets/Icons/icons.qrc">
          <normaloff>:/data_transfer_48px.png</normaloff>:/data_transfer_48px.png</iconset>
@@ -96,7 +87,7 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabPlans">
+      <widget class="XWidget" name="tabPlans">
        <attribute name="icon">
         <iconset resource="../Assets/Icons/icons.qrc">
          <normaloff>:/schedule_48px.png</normaloff>:/schedule_48px.png</iconset>
@@ -119,7 +110,7 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabModel">
+      <widget class="XWidget" name="tabModel">
        <attribute name="icon">
         <iconset resource="../Assets/Icons/icons.qrc">
          <normaloff>:/prototype_48px.png</normaloff>:/prototype_48px.png</iconset>
@@ -142,7 +133,7 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabDesign">
+      <widget class="XWidget" name="tabDesign">
        <attribute name="icon">
         <iconset resource="../Assets/Icons/icons.qrc">
          <normaloff>:/text_width_48px.png</normaloff>:/text_width_48px.png</iconset>
@@ -165,7 +156,7 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabIV">
+      <widget class="XWidget" name="tabIV">
        <attribute name="icon">
         <iconset resource="../Assets/Icons/icons.qrc">
          <normaloff>:/iris_scan_48px.png</normaloff>:/iris_scan_48px.png</iconset>
@@ -188,7 +179,7 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabSetting">
+      <widget class="XWidget" name="tabSetting">
        <attribute name="icon">
         <iconset resource="../Assets/Icons/icons.qrc">
          <normaloff>:/settings_48px.png</normaloff>:/settings_48px.png</iconset>
@@ -211,7 +202,7 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabControl">
+      <widget class="XWidget" name="tabControl">
        <attribute name="icon">
         <iconset resource="../Assets/Icons/icons.qrc">
          <normaloff>:/joystick_48px.png</normaloff>:/joystick_48px.png</iconset>
@@ -234,7 +225,7 @@
         </property>
        </layout>
       </widget>
-      <widget class="QWidget" name="tabData">
+      <widget class="XWidget" name="tabData">
        <attribute name="icon">
         <iconset resource="../Assets/Icons/icons.qrc">
          <normaloff>:/microsoft_excel_2019_48px.png</normaloff>:/microsoft_excel_2019_48px.png</iconset>
@@ -413,6 +404,20 @@
   </action>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>XWidget</class>
+   <extends>QWidget</extends>
+   <header>XWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>XTabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>XTabWidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
   <include location="../Assets/Icons/icons.qrc"/>
  </resources>

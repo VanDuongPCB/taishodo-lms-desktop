@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="XWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <property name="leftMargin">
      <number>15</number>
@@ -31,7 +31,7 @@
      <number>10</number>
     </property>
     <item row="0" column="1">
-     <widget class="QLabel" name="label_5">
+     <widget class="XLabel" name="label_5">
       <property name="font">
        <font>
         <bold>true</bold>
@@ -108,7 +108,7 @@
      </widget>
     </item>
     <item row="2" column="1" rowspan="2">
-     <widget class="QWidget" name="widInfo" native="true">
+     <widget class="XWidget" name="widInfo" native="true">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -129,14 +129,14 @@
         <number>0</number>
        </property>
        <item row="8" column="1">
-        <widget class="QCheckBox" name="chxPrintLo">
+        <widget class="XCheckBox" name="chxPrintLo">
          <property name="text">
           <string/>
          </property>
         </widget>
        </item>
        <item row="4" column="1">
-        <widget class="QComboBox" name="cbxStopper">
+        <widget class="XComboBox" name="cbxStopper">
          <item>
           <property name="text">
            <string>1</string>
@@ -150,7 +150,7 @@
         </widget>
        </item>
        <item row="7" column="0">
-        <widget class="QLabel" name="label_9">
+        <widget class="XLabel" name="label_9">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -172,7 +172,7 @@
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QLabel" name="label_2">
+        <widget class="XLabel" name="label_2">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -194,7 +194,7 @@
         </widget>
        </item>
        <item row="5" column="0">
-        <widget class="QLabel" name="label_10">
+        <widget class="XLabel" name="label_10">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -216,7 +216,7 @@
         </widget>
        </item>
        <item row="8" column="0">
-        <widget class="QLabel" name="label_4">
+        <widget class="XLabel" name="label_4">
          <property name="text">
           <string>In mã lô</string>
          </property>
@@ -239,7 +239,7 @@
         </spacer>
        </item>
        <item row="1" column="1">
-        <widget class="QLineEdit" name="txtModelName">
+        <widget class="XLineEdit" name="txtModelName">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -252,7 +252,7 @@
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QLineEdit" name="txtModelCode">
+        <widget class="XLineEdit" name="txtModelCode">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -265,7 +265,7 @@
         </widget>
        </item>
        <item row="4" column="0">
-        <widget class="QLabel" name="label_6">
+        <widget class="XLabel" name="label_6">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -287,7 +287,7 @@
         </widget>
        </item>
        <item row="6" column="0">
-        <widget class="QLabel" name="label_8">
+        <widget class="XLabel" name="label_8">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -309,7 +309,7 @@
         </widget>
        </item>
        <item row="7" column="1">
-        <widget class="QDoubleSpinBox" name="spxCvWidth">
+        <widget class="XDoubleSpinBox" name="spxCvWidth">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -325,7 +325,7 @@
         </widget>
        </item>
        <item row="6" column="1">
-        <widget class="QComboBox" name="cbxIVPrograms">
+        <widget class="XComboBox" name="cbxIVPrograms">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -338,14 +338,14 @@
         </widget>
        </item>
        <item row="5" column="1">
-        <widget class="QSpinBox" name="spxProgram">
+        <widget class="XSpinBox" name="spxProgram">
          <property name="maximum">
           <number>1999</number>
          </property>
         </widget>
        </item>
        <item row="3" column="0">
-        <widget class="QLabel" name="label_3">
+        <widget class="XLabel" name="label_3">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -367,7 +367,7 @@
         </widget>
        </item>
        <item row="3" column="1">
-        <widget class="QLineEdit" name="txtModelNo">
+        <widget class="XLineEdit" name="txtModelNo">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -377,7 +377,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="XLabel" name="label">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -399,7 +399,7 @@
         </widget>
        </item>
        <item row="0" column="0" colspan="2">
-        <widget class="QLabel" name="label_7">
+        <widget class="XLabel" name="label_7">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -420,7 +420,7 @@
      </widget>
     </item>
     <item row="2" column="2" rowspan="2">
-     <widget class="QWidget" name="widPosition" native="true">
+     <widget class="XWidget" name="widPosition" native="true">
       <layout class="QGridLayout" name="gridLayout_4">
        <property name="leftMargin">
         <number>0</number>
@@ -435,7 +435,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="QLabel" name="label_12">
+        <widget class="XLabel" name="label_12">
          <property name="minimumSize">
           <size>
            <width>0</width>
@@ -481,7 +481,7 @@
      </widget>
     </item>
     <item row="2" column="3" rowspan="2">
-     <widget class="QWidget" name="widParams" native="true">
+     <widget class="XWidget" name="widParams" native="true">
       <layout class="QGridLayout" name="gridLayout_3">
        <property name="leftMargin">
         <number>0</number>
@@ -496,7 +496,7 @@
         <number>0</number>
        </property>
        <item row="0" column="0">
-        <widget class="QLabel" name="label_13">
+        <widget class="XLabel" name="label_13">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -520,14 +520,14 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QPushButton" name="btnAddParam">
+        <widget class="XPushButton" name="btnAddParam">
          <property name="text">
           <string>Thêm</string>
          </property>
         </widget>
        </item>
        <item row="0" column="2">
-        <widget class="QPushButton" name="btnRemoveParam">
+        <widget class="XPushButton" name="btnRemoveParam">
          <property name="text">
           <string>Xóa</string>
          </property>
@@ -556,7 +556,7 @@
      </widget>
     </item>
     <item row="5" column="1" colspan="3">
-     <widget class="QLabel" name="label_14">
+     <widget class="XLabel" name="label_14">
       <property name="font">
        <font>
         <bold>true</bold>
@@ -569,7 +569,7 @@
     </item>
    </layout>
   </widget>
-  <widget class="QToolBar" name="toolBar">
+  <widget class="XToolBar" name="toolBar">
    <property name="windowTitle">
     <string>toolBar</string>
    </property>
@@ -660,6 +660,53 @@
    <class>NxTableView</class>
    <extends>QTableView</extends>
    <header>NxTableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>XLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XWidget</class>
+   <extends>QWidget</extends>
+   <header>XWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>XPushButton</class>
+   <extends>QPushButton</extends>
+   <header>XPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>XCheckBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XComboBox</class>
+   <extends>QComboBox</extends>
+   <header>XComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XToolBar</class>
+   <extends>QToolBar</extends>
+   <header>XToolBar.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>XSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>XSpinBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>XDoubleSpinBox.h</header>
   </customwidget>
  </customwidgets>
  <resources>

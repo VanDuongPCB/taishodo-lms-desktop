@@ -3,6 +3,7 @@
 #include "QDir"
 #include "QFile"
 #include "QFileInfo"
+#include "QStandardPaths"
 #include "QJsonDocument"
 #include "QJsonArray"
 #include "QJsonObject"
@@ -13,18 +14,45 @@
 
 namespace
 {
-    const QString appRegPath = QString( "HKEY_CURRENT_USER\\Software\\Laser Marking System" );
+    // Windows: registry HKCU\Software\Laser Marking System.
+    // Linux/macOS: không có registry, lưu INI tại ~/.config/Laser Marking System/LMS.conf.
+    // (Giữ nguyên chuỗi registry trên Linux thì QSettings tạo file mang tên đó ngay trong
+    // thư mục đang đứng.)
+    QString SettingsPath()
+    {
+#ifdef Q_OS_WIN
+        return QString( "HKEY_CURRENT_USER\\Software\\Laser Marking System" );
+#else
+        return QStandardPaths::writableLocation( QStandardPaths::GenericConfigLocation )
+            + "/Laser Marking System/LMS.conf";
+#endif
+    }
+
+    QString DefaultDatabasePath()
+    {
+#ifdef Q_OS_WIN
+        return "D:/LMS/LMS.db";
+#else
+        return QStandardPaths::writableLocation( QStandardPaths::GenericDataLocation ) + "/LMS/LMS.db";
+#endif
+    }
+
+#ifdef Q_OS_WIN
+    const QSettings::Format settingsFormat = QSettings::NativeFormat;
+#else
+    const QSettings::Format settingsFormat = QSettings::IniFormat;
+#endif
 }
 
 HxRegistrySetting::HxRegistrySetting() :
-    QSettings( appRegPath, QSettings::NativeFormat ),
-    m_regPath( appRegPath )
+    QSettings( SettingsPath(), settingsFormat ),
+    m_regPath( SettingsPath() )
 {
-    m_defaultValues[ DatabaseFilePath ] = value( DatabaseFilePath, "D:/LMS/LMS.db" );
+    m_defaultValues[ DatabaseFilePath ] = value( DatabaseFilePath, DefaultDatabasePath() );
     m_defaultValues[ DataRootDir ] = value( DataRootDir, qApp->applicationDirPath() + "/data" );
     m_defaultValues[ IVProgramDir ] = value( IVProgramDir, qApp->applicationDirPath() + "/data/IV-PROGRAMS" );
-    m_defaultValues[ ThemeRootDir ] = value( ThemeRootDir, qApp->applicationDirPath() + "/themes" );
-    m_defaultValues[ ThemeSetting ] = value( ThemeSetting, "Default" );
+    m_defaultValues[ ThemeRootDir ] = value( ThemeRootDir, ":/themes" );   // theme nhúng trong resource (Assets/Themes/themes.qrc)
+    m_defaultValues[ ThemeSetting ] = value( ThemeSetting, "Light" );
     m_defaultValues[ AdminPassword ] = value( AdminPassword, "Laser" );
     m_defaultValues[ SuperPassword ] = value( SuperPassword, "Super123" );
     m_defaultValues[ LeaderPassword ] = value( LeaderPassword, "Leader123" );
@@ -47,12 +75,15 @@ HxRegistrySetting::HxRegistrySetting() :
     m_defaultValues[ RegMarkingResult ] = value( RegMarkingResult, "MR30101" );
 }
 
-HxRegistrySetting& HxRegistrySetting::operator = ( const HxRegistrySetting& other)
+HxRegistrySetting& HxRegistrySetting::operator = ( const HxRegistrySetting& other )
 {
-    HxRegistrySetting setting;
-    setting.m_dataLoaded = other.m_dataLoaded;
-    setting.m_dataToSave = other.m_dataToSave;
-    return setting;
+    if ( this != &other )
+    {
+        m_defaultValues = other.m_defaultValues;
+        m_dataLoaded = other.m_dataLoaded;
+        m_dataToSave = other.m_dataToSave;
+    }
+    return *this;
 }
 
 bool HxRegistrySetting::Bool( QAnyStringView key )

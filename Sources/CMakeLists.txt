@@ -23,7 +23,9 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 # Qt (bản cài chính thức hoặc vcpkg) dùng CRT động (/MD, /MDd). Khai báo tường minh để không lệch CRT.
-# Thư mục Qt được generator.py truyền qua -DCMAKE_PREFIX_PATH=<kit>, ví dụ C:/Qt/6.8.0/msvc2022_64.
+# Thư mục Qt được generator.py truyền qua -DCMAKE_PREFIX_PATH=<kit> (kit cài từ bộ cài Qt,
+# ví dụ C:/Qt/6.8.0/msvc2022_64 hay ~/Qt/6.8.0/gcc_64) và -DQt6_DIR=<thư mục chứa Qt6Config.cmake>
+# (Qt cài từ gói hệ thống trên Linux, ví dụ /usr/lib/x86_64-linux-gnu/cmake/Qt6).
 set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>DLL")
 
 # Cấu hình build. Mặc định là RelWithDebInfo ở mọi loại generator.

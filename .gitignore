@@ -48,3 +48,6 @@ _installers/*
 _vcpkg/*
 # generator.py local settings
 .generator.json
+
+# Python
+__pycache__/

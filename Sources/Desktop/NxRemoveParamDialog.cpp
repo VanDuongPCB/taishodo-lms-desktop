@@ -1,7 +1,7 @@
 #include "NxRemoveParamDialog.h"
 #include "ui_NxRemoveParamDialog.h"
 
-NxRemoveParamDialog::NxRemoveParamDialog( QWidget* parent ) : QDialog( parent ), ui( new Ui::RemoveParamDialog )
+NxRemoveParamDialog::NxRemoveParamDialog( QWidget* parent ) : XDialog( parent ), ui( new Ui::RemoveParamDialog )
 {
     ui->setupUi( this );
 }

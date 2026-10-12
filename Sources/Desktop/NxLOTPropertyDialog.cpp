@@ -1,5 +1,5 @@
 #include "NxLOTPropertyDialog.h"
-#include "ui_nxlotpropertydialog.h"
+#include "ui_NxLOTPropertyDialog.h"
 #include "NxLOT.h"
 #include "NxModel.h"
 #include "NxDesign.h"
@@ -7,7 +7,7 @@
 #include "NxMessage.h"
 #include "NxDataGenerator.h"
 
-NxLOTPropertyDialog::NxLOTPropertyDialog( NxLOTPtr pLOT, NxLOTPtrMap LOTs, QWidget* parent ) : QDialog( parent ), ui( new Ui::LotPropertyDialog )
+NxLOTPropertyDialog::NxLOTPropertyDialog( NxLOTPtr pLOT, NxLOTPtrMap LOTs, QWidget* parent ) : XDialog( parent ), ui( new Ui::LotPropertyDialog )
 {
     ui->setupUi( this );
     m_LOTs = LOTs;

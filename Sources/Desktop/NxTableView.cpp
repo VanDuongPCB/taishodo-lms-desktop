@@ -2,7 +2,7 @@
 #include "QKeyEvent"
 #include "iostream"
 
-NxTableView::NxTableView( QWidget* parent ) : QTableView( parent )
+NxTableView::NxTableView( QWidget* parent ) : XTableView( parent )
 {
 
 }
@@ -14,7 +14,7 @@ NxTableView::~NxTableView()
 
 void NxTableView::keyPressEvent( QKeyEvent* event )
 {
-    QTableView::keyPressEvent( event );
+    XTableView::keyPressEvent( event );
     int key = event->key();
     // up + down
     if ( key == 16777235 || key == 16777237 )

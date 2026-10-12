@@ -1,5 +1,5 @@
 #include "NxSettingsWindow.h"
-#include "ui_nxsettingswindow.h"
+#include "ui_NxSettingsWindow.h"
 #include "QLineEdit"
 
 #include "NxSettings.h"
@@ -21,7 +21,7 @@
 #include "NxMigration.h"
 #include "NxMigrationDialog.h"
 
-NxSettingsWindow::NxSettingsWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::SettingsWindow )
+NxSettingsWindow::NxSettingsWindow( QWidget* parent ) : XMainWindow( parent ), ui( new Ui::SettingsWindow )
 {
     ui->setupUi( this );
 
@@ -48,7 +48,7 @@ void NxSettingsWindow::showEvent( QShowEvent* )
 
 bool NxSettingsWindow::eventFilter( QObject* watched, QEvent* event )
 {
-    return QMainWindow::eventFilter( watched, event );
+    return XMainWindow::eventFilter( watched, event );
 }
 
 void NxSettingsWindow::Show()

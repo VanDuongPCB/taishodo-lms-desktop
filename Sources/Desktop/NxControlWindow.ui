@@ -13,7 +13,7 @@
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
-  <widget class="QWidget" name="centralwidget">
+  <widget class="XWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
     <property name="horizontalSpacing">
      <number>30</number>
@@ -22,7 +22,7 @@
      <number>20</number>
     </property>
     <item row="1" column="1">
-     <widget class="QGroupBox" name="groupBox_5">
+     <widget class="XGroupBox" name="groupBox_5">
       <property name="minimumSize">
        <size>
         <width>300</width>
@@ -34,14 +34,14 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_5">
        <item row="1" column="0">
-        <widget class="QPushButton" name="pushButton_4">
+        <widget class="XPushButton" name="pushButton_4">
          <property name="text">
           <string>Kiểm tra barcode</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QPushButton" name="btnBarcodeRead">
+        <widget class="XPushButton" name="btnBarcodeRead">
          <property name="minimumSize">
           <size>
            <width>130</width>
@@ -67,7 +67,7 @@
         </spacer>
        </item>
        <item row="0" column="0" colspan="2">
-        <widget class="QLineEdit" name="txtBarcodeData">
+        <widget class="XLineEdit" name="txtBarcodeData">
          <property name="readOnly">
           <bool>true</bool>
          </property>
@@ -77,7 +77,7 @@
      </widget>
     </item>
     <item row="0" column="1">
-     <widget class="QGroupBox" name="groupBox_4">
+     <widget class="XGroupBox" name="groupBox_4">
       <property name="minimumSize">
        <size>
         <width>0</width>
@@ -89,14 +89,14 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_8">
        <item row="1" column="0">
-        <widget class="QLabel" name="label_6">
+        <widget class="XLabel" name="label_6">
          <property name="text">
           <string>Stopper</string>
          </property>
         </widget>
        </item>
        <item row="0" column="0">
-        <widget class="QLabel" name="label_8">
+        <widget class="XLabel" name="label_8">
          <property name="minimumSize">
           <size>
            <width>130</width>
@@ -109,7 +109,7 @@
         </widget>
        </item>
        <item row="0" column="1">
-        <widget class="QDoubleSpinBox" name="spxCvWidth">
+        <widget class="XDoubleSpinBox" name="spxCvWidth">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
            <horstretch>0</horstretch>
@@ -128,7 +128,7 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QComboBox" name="cbxStopper">
+        <widget class="XComboBox" name="cbxStopper">
          <property name="minimumSize">
           <size>
            <width>130</width>
@@ -164,7 +164,7 @@
      </spacer>
     </item>
     <item row="2" column="1">
-     <widget class="QGroupBox" name="groupBox_3">
+     <widget class="XGroupBox" name="groupBox_3">
       <property name="sizePolicy">
        <sizepolicy hsizetype="Preferred" vsizetype="Expanding">
         <horstretch>0</horstretch>
@@ -176,7 +176,7 @@
       </property>
       <layout class="QGridLayout" name="gridLayout_6">
        <item row="0" column="0">
-        <widget class="QLabel" name="label">
+        <widget class="XLabel" name="label">
          <property name="minimumSize">
           <size>
            <width>130</width>
@@ -189,7 +189,7 @@
         </widget>
        </item>
        <item row="0" column="1" colspan="2">
-        <widget class="QSpinBox" name="spxProgram">
+        <widget class="XSpinBox" name="spxProgram">
          <property name="minimum">
           <number>-10</number>
          </property>
@@ -202,7 +202,7 @@
         </widget>
        </item>
        <item row="1" column="0">
-        <widget class="QLabel" name="label_2">
+        <widget class="XLabel" name="label_2">
          <property name="text">
           <string>X</string>
          </property>
@@ -231,14 +231,14 @@
         </widget>
        </item>
        <item row="1" column="2">
-        <widget class="QLabel" name="label_4">
+        <widget class="XLabel" name="label_4">
          <property name="text">
           <string>Góc</string>
          </property>
         </widget>
        </item>
        <item row="2" column="1">
-        <widget class="QDoubleSpinBox" name="spxMarkY">
+        <widget class="XDoubleSpinBox" name="spxMarkY">
          <property name="minimumSize">
           <size>
            <width>130</width>
@@ -257,7 +257,7 @@
         </widget>
        </item>
        <item row="2" column="2">
-        <widget class="QSpinBox" name="spxMarkAngle">
+        <widget class="XSpinBox" name="spxMarkAngle">
          <property name="minimumSize">
           <size>
            <width>130</width>
@@ -279,21 +279,21 @@
         </widget>
        </item>
        <item row="1" column="1">
-        <widget class="QLabel" name="label_3">
+        <widget class="XLabel" name="label_3">
          <property name="text">
           <string>Y</string>
          </property>
         </widget>
        </item>
        <item row="5" column="0" colspan="2">
-        <widget class="QLabel" name="label_5">
+        <widget class="XLabel" name="label_5">
          <property name="text">
           <string>Nội dung blocks</string>
          </property>
         </widget>
        </item>
        <item row="2" column="0">
-        <widget class="QDoubleSpinBox" name="spxMarkX">
+        <widget class="XDoubleSpinBox" name="spxMarkX">
          <property name="minimumSize">
           <size>
            <width>100</width>
@@ -312,14 +312,14 @@
         </widget>
        </item>
        <item row="5" column="2">
-        <widget class="QPushButton" name="btnBlockClear">
+        <widget class="XPushButton" name="btnBlockClear">
          <property name="text">
           <string>Xóa</string>
          </property>
         </widget>
        </item>
        <item row="7" column="0" colspan="3">
-        <widget class="QCheckBox" name="chxChangeProgram">
+        <widget class="XCheckBox" name="chxChangeProgram">
          <property name="text">
           <string>Thay đổi chương trình</string>
          </property>
@@ -329,7 +329,7 @@
         </widget>
        </item>
        <item row="8" column="0" colspan="3">
-        <widget class="QCheckBox" name="chxChangePos">
+        <widget class="XCheckBox" name="chxChangePos">
          <property name="text">
           <string>Thay đổi tọa độ</string>
          </property>
@@ -339,7 +339,7 @@
         </widget>
        </item>
        <item row="9" column="0" colspan="3">
-        <widget class="QCheckBox" name="chxChangeContent">
+        <widget class="XCheckBox" name="chxChangeContent">
          <property name="text">
           <string>Thay đổi nội dung</string>
          </property>
@@ -349,7 +349,7 @@
         </widget>
        </item>
        <item row="10" column="0" colspan="3">
-        <widget class="QCheckBox" name="chxPrint">
+        <widget class="XCheckBox" name="chxPrint">
          <property name="text">
           <string>In</string>
          </property>
@@ -359,7 +359,7 @@
         </widget>
        </item>
        <item row="11" column="1">
-        <widget class="QPushButton" name="btnMark">
+        <widget class="XPushButton" name="btnMark">
          <property name="text">
           <string>Thực hiện</string>
          </property>
@@ -376,6 +376,53 @@
    <class>NxTableView</class>
    <extends>QTableView</extends>
    <header>NxTableView.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLabel</class>
+   <extends>QLabel</extends>
+   <header>XLabel.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>XLineEdit.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XWidget</class>
+   <extends>QWidget</extends>
+   <header>XWidget.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>XPushButton</class>
+   <extends>QPushButton</extends>
+   <header>XPushButton.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XCheckBox</class>
+   <extends>QCheckBox</extends>
+   <header>XCheckBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XComboBox</class>
+   <extends>QComboBox</extends>
+   <header>XComboBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XSpinBox</class>
+   <extends>QSpinBox</extends>
+   <header>XSpinBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XDoubleSpinBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header>XDoubleSpinBox.h</header>
+  </customwidget>
+  <customwidget>
+   <class>XGroupBox</class>
+   <extends>QGroupBox</extends>
+   <header>XGroupBox.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

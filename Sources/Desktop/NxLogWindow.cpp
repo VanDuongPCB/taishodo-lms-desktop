@@ -1,8 +1,8 @@
 ﻿#include "NxLogWindow.h"
-#include "ui_nxlogwindow.h"
+#include "ui_NxLogWindow.h"
 
 
-NxLogWindow::NxLogWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::LogWindow )
+NxLogWindow::NxLogWindow( QWidget* parent ) : XMainWindow( parent ), ui( new Ui::LogWindow )
 {
     ui->setupUi( this );
     ui->toolBar->addWidget( new QLabel( tr( "Từ" ) ) );

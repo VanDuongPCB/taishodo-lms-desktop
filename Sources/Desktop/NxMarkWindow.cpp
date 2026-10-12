@@ -15,7 +15,7 @@
 
 #include "NxLOTSelector.h"
 
-NxMarkWindow::NxMarkWindow( QWidget* parent ) : QMainWindow( parent ), ui( new Ui::MarkWindow )
+NxMarkWindow::NxMarkWindow( QWidget* parent ) : XMainWindow( parent ), ui( new Ui::MarkWindow )
 {
     ui->setupUi( this );
     qApp->installEventFilter( this );
@@ -46,7 +46,7 @@ bool NxMarkWindow::eventFilter( QObject* watched, QEvent* event )
     NxEvent* NxEvent( nullptr );
     NxEvent::Type type;
     if ( !NxEvent::IsCustomEvent( event, NxEvent, type ) )
-        return QMainWindow::eventFilter( watched, event );
+        return XMainWindow::eventFilter( watched, event );
 
     switch ( type )
     {
@@ -84,7 +84,7 @@ bool NxMarkWindow::eventFilter( QObject* watched, QEvent* event )
     default:
         break;
     }
-    return QMainWindow::eventFilter( watched, event );
+    return XMainWindow::eventFilter( watched, event );
 }
 
 void NxMarkWindow::ShowLotInfo()
